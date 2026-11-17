@@ -112,6 +112,18 @@ tr.total td{font-weight:600;border-top:2px solid var(--artifact-border-dark);bac
 .tab-btn.active{background:var(--artifact-selected);border-color:var(--artifact-primary-brand);color:var(--artifact-primary-brand)}
 .tab-panel{display:none}
 .tab-panel.active{display:block}
+/* --- contact strip --- */
+.contact-strip{margin-top:12px;display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.contact-head{margin:18px 0 0;border-top:1px dashed var(--artifact-border-light)}
+.contact-card{border:1px solid var(--artifact-border-light);border-radius:8px;background:var(--artifact-background);padding:15px 17px;display:flex;flex-direction:column;line-height:1.5}
+.contact-card .c-role{font-family:"SF Mono","IBM Plex Mono","Consolas",monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--artifact-text-secondary)}
+.contact-card .c-name{font-size:14px;font-weight:600}
+.contact-card a{font-size:12.5px;color:var(--artifact-primary-brand);text-decoration:none}
+.contact-card a:hover{text-decoration:underline}
+/* --- language toggle --- */
+.lang-seg{display:flex;gap:6px;margin-left:10px;padding-left:12px;border-left:1px solid var(--artifact-border-light)}
+.lang-btn{padding:9px 12px;font-size:12.5px;font-family:inherit;font-weight:600;letter-spacing:.04em;border:1px solid var(--artifact-border-dark);border-radius:6px;background:var(--artifact-background);color:var(--artifact-text-secondary);cursor:pointer;transition:.15s}
+.lang-btn.active{background:var(--artifact-selected);border-color:var(--artifact-primary-brand);color:var(--artifact-primary-brand)}
 @media print{.tab-bar{display:none!important}.tab-panel{display:none!important}.tab-panel.active{display:block!important}}
 </style>
 </head>
@@ -125,7 +137,10 @@ tr.total td{font-weight:600;border-top:2px solid var(--artifact-border-dark);bac
 <button class="tab-btn" data-tab="ea">OSH Essentials & Advanced</button>
 <button class="tab-btn" data-tab="pr">OSH Premier</button>
 <button class="tab-btn" data-tab="dpa">DPA</button>
-<button class="tab-btn" data-tab="contact">Contact</button>
+<div class="lang-seg" aria-label="Language">
+<button class="lang-btn active" data-lang="en">EN</button>
+<button class="lang-btn" data-lang="id">ID</button>
+</div>
 </nav>
 <section class="tab-panel active" id="panel-sw">
 <div class="shell">
@@ -228,6 +243,19 @@ tr.total td{font-weight:600;border-top:2px solid var(--artifact-border-dark);bac
         </div>
       </div>
       <div id="sw-o-flags"></div>
+      <p class="sub-head contact-head">Contact us</p>
+      <div class="contact-strip">
+        <div class="contact-card">
+          <span class="c-role">Product Manager</span>
+          <span class="c-name">Vera Pratiwi</span>
+          <a href="mailto:Vera.Pratiwi@westcon.com">Vera.Pratiwi@westcon.com</a>
+        </div>
+        <div class="contact-card">
+          <span class="c-role">Sales Engineer</span>
+          <span class="c-name">Teguh P. Mulyo</span>
+          <a href="mailto:teguh.mulyo@westcon.com">teguh.mulyo@westcon.com</a>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -408,6 +436,19 @@ tr.total td{font-weight:600;border-top:2px solid var(--artifact-border-dark);bac
         </div>
       </div>
       <div id="ea-o-flags"></div>
+      <p class="sub-head contact-head">Contact us</p>
+      <div class="contact-strip">
+        <div class="contact-card">
+          <span class="c-role">Product Manager</span>
+          <span class="c-name">Vera Pratiwi</span>
+          <a href="mailto:Vera.Pratiwi@westcon.com">Vera.Pratiwi@westcon.com</a>
+        </div>
+        <div class="contact-card">
+          <span class="c-role">Sales Engineer</span>
+          <span class="c-name">Teguh P. Mulyo</span>
+          <a href="mailto:teguh.mulyo@westcon.com">teguh.mulyo@westcon.com</a>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -623,13 +664,6 @@ tr.total td{font-weight:600;border-top:2px solid var(--artifact-border-dark);bac
           <div class="out-value" id="pr-o-overage">—</div>
           <div class="note" id="pr-o-overage-note">Enable overage to calculate burst</div>
         </div>
-        <div class="out-card" data-glean-id="o-cost-card">
-          <div class="out-label">Indicative annual list
-            <span class="info" tabindex="0"><span class="ico">i</span><span class="tip">Estimate only. Premier "starts at" US$17.50/node/month multi-year (customer-facing slides). Confirm in CPQ.</span></span>
-          </div>
-          <div class="out-value" id="pr-o-cost">—</div>
-          <div class="note">Estimate · confirm in CPQ</div>
-        </div>
         <div class="out-card" data-glean-id="o-srm-card">
           <div class="out-label">Storage / WPM (included)
             <span class="info" tabindex="0"><span class="ico">i</span><span class="tip">WPM &amp; SRM are included &amp; unlimited in Premier today (Silicon 2026.2) and do not consume nodes. From Tungsten 2026.4, SRM is planned at ~5 nodes/array.</span></span>
@@ -646,6 +680,19 @@ tr.total td{font-weight:600;border-top:2px solid var(--artifact-border-dark);bac
         </div>
       </div>
       <div id="pr-o-flags"></div>
+      <p class="sub-head contact-head">Contact us</p>
+      <div class="contact-strip">
+        <div class="contact-card">
+          <span class="c-role">Product Manager</span>
+          <span class="c-name">Vera Pratiwi</span>
+          <a href="mailto:Vera.Pratiwi@westcon.com">Vera.Pratiwi@westcon.com</a>
+        </div>
+        <div class="contact-card">
+          <span class="c-role">Sales Engineer</span>
+          <span class="c-name">Teguh P. Mulyo</span>
+          <a href="mailto:teguh.mulyo@westcon.com">teguh.mulyo@westcon.com</a>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -818,6 +865,19 @@ tr.total td{font-weight:600;border-top:2px solid var(--artifact-border-dark);bac
         </div>
       </div>
       <div id="dpa-o-flags"></div>
+      <p class="sub-head contact-head">Contact us</p>
+      <div class="contact-strip">
+        <div class="contact-card">
+          <span class="c-role">Product Manager</span>
+          <span class="c-name">Vera Pratiwi</span>
+          <a href="mailto:Vera.Pratiwi@westcon.com">Vera.Pratiwi@westcon.com</a>
+        </div>
+        <div class="contact-card">
+          <span class="c-role">Sales Engineer</span>
+          <span class="c-name">Teguh P. Mulyo</span>
+          <a href="mailto:teguh.mulyo@westcon.com">teguh.mulyo@westcon.com</a>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -905,26 +965,6 @@ tr.total td{font-weight:600;border-top:2px solid var(--artifact-border-dark);bac
   </div>
 
   <p class="foot-note">Indicative SE sizing estimate for SolarWinds DPA. License quantities, license types, and final hardware must be validated in CPQ and against the customer's live environment and current DPA system-requirements documentation before quoting.</p>
-</div>
-</section>
-
-<section class="tab-panel" id="panel-contact">
-<div class="shell">
-  <p class="eyebrow">SolarWinds Sizing &middot; by Westcon ID Team</p>
-  <h1>Contact</h1>
-  <p class="sub">Reach out to the Westcon team for licensing validation, CPQ quotes, and sizing reviews.</p>
-  <div class="grid-out" style="max-width:760px">
-    <div class="out-card">
-      <div class="out-label">Product Manager</div>
-      <div class="out-value">Vera Pratiwi</div>
-      <div class="note"><a href="mailto:Vera.Pratiwi@westcon.com" style="color:var(--artifact-primary-brand)">Vera.Pratiwi@westcon.com</a></div>
-    </div>
-    <div class="out-card">
-      <div class="out-label">Sales Engineer</div>
-      <div class="out-value">Teguh P. Mulyo</div>
-      <div class="note"><a href="mailto:teguh.mulyo@westcon.com" style="color:var(--artifact-primary-brand)">teguh.mulyo@westcon.com</a></div>
-    </div>
-  </div>
 </div>
 </section>
 
@@ -1355,7 +1395,6 @@ function calc(){
 
   if(state.overage==='yes'&&tier){var burst=Math.min(Math.round(tier*0.25),500);$id('o-overage').innerHTML='+'+fmt(burst)+' <small>nodes</small>';$id('o-overage-note').textContent='Effective ceiling ≈ '+fmt(tier+burst)+' nodes';}
   else{$id('o-overage').textContent='—';$id('o-overage-note').textContent='Enable overage to calculate burst';}
-  $id('o-cost').innerHTML=tier?money(tier*PRICE*12)+' <small>/yr</small>':'—';
 
   var arrays=val('i-arrays'), wpm=val('i-wpm');
   var sp=[]; if(arrays>0)sp.push(fmt(arrays)+' arrays (~'+fmt(arrays*SRM_NODES_PER_ARRAY)+' nodes from Tungsten)'); if(wpm>0)sp.push(fmt(wpm)+' WPM txns');
@@ -1494,5 +1533,29 @@ calc();
 })();
 </script>
 
+<script>
+(function(){
+var DICT={"Contact us":"Hubungi kami","Licensing inputs": "Input lisensi", "Monitoring scope (entities)": "Cakupan monitoring (entitas)", "Reference": "Referensi", "Licensing": "Lisensi", "Hardware sizing": "Sizing hardware", "Customer-side sizing": "Sizing sisi pelanggan", "How this is calculated": "Cara perhitungan", "Sources": "Sumber", "Contact": "Kontak", "1 · Minimum hardware": "1 · Hardware minimum", "2 · Recommended hardware": "2 · Hardware rekomendasi", "1 · Minimum": "1 · Minimum", "2 · Recommended": "2 · Rekomendasi", "Documented minimum collector spec": "Spesifikasi minimum collector sesuai dokumentasi", "Recommended spec + HA / redundancy": "Spesifikasi rekomendasi + HA / redundansi", "Quantity estimate · confirm in CPQ": "Estimasi kuantitas · konfirmasi di CPQ", "Per monitored DB instance · confirm in CPQ": "Per instance DB termonitor · konfirmasi di CPQ", "Planned additions": "Rencana penambahan", "Growth headroom %": "Headroom pertumbuhan %", "Module coverage by tier": "Cakupan modul per tier", "Published node tiers": "Tier node terpublikasi", "Published Premier node tiers": "Tier node Premier terpublikasi", "Self-Hosted infrastructure — Minimum vs Recommended": "Infrastruktur Self-Hosted — Minimum vs Rekomendasi", "Infrastructure — Minimum vs Recommended": "Infrastruktur — Minimum vs Rekomendasi", "Collectors & agents — Minimum vs Recommended": "Collector & agent — Minimum vs Rekomendasi", "Per-poller scalability limits (2026 guide)": "Batas skalabilitas per poller (panduan 2026)", "Entity weighting & units of measure": "Pembobotan entitas & satuan ukur", "Module license summary": "Ringkasan lisensi modul", "License summary": "Ringkasan lisensi", "License types": "Tipe lisensi", "DPA server & repository — Minimum vs Recommended": "Server DPA & repository — Minimum vs Rekomendasi", "DPA 2026.2 sizing brackets (per DPA server)": "Bracket sizing DPA 2026.2 (per server DPA)", "Recommended license tier": "Tier lisensi direkomendasikan", "Total required capacity": "Total kapasitas dibutuhkan", "Scale edition": "Edisi skala", "Polling engines required": "Polling engine dibutuhkan", "Additional web servers": "Web server tambahan", "Recommended Premier tier": "Tier Premier direkomendasikan", "Attached SaaS capacity": "Kapasitas SaaS terlampir", "Overage headroom": "Headroom overage", "Storage / WPM (included)": "Storage / WPM (termasuk)", "Network & Infrastructure entitlements": "Entitlement Network & Infrastructure", "Applications & Databases": "Aplikasi & Database", "Logs": "Log", "Total DPA licenses required": "Total lisensi DPA dibutuhkan", "DBSH licenses": "Lisensi DBSH", "DBSHDS licenses": "Lisensi DBSHDS", "DPA servers required": "Server DPA dibutuhkan", "Deployment bracket": "Bracket deployment", "Network & Infrastructure Observability": "Observabilitas Network & Infrastructure", "Self-Hosted (OSH) polling workload": "Beban kerja polling Self-Hosted (OSH)", "SaaS monitoring scope": "Cakupan monitoring SaaS", "Included components (Tier 2 · no node impact in 2026.2)": "Komponen termasuk (Tier 2 · tanpa dampak node di 2026.2)", "Server sizing workload": "Beban kerja sizing server", "Network devices": "Perangkat jaringan", "Wireless APs": "Wireless AP", "Hosts / servers": "Host / server", "Hypervisors / virtual hosts": "Hypervisor / host virtual", "Standalone VMs": "VM standalone", "Cloud services (non-host)": "Layanan cloud (non-host)", "Kubernetes containers": "Container Kubernetes", "Storage arrays": "Storage array", "NetFlow flows/sec (optional)": "NetFlow flow/detik (opsional)", "APM services": "Layanan APM", "Database instances": "Instance database", "Endpoints / URLs": "Endpoint / URL", "Protocols per endpoint": "Protokol per endpoint", "Public probe locations": "Lokasi probe publik", "Use private probes": "Gunakan private probe", "Number of private probes": "Jumlah private probe", "Synthetic transactions": "Transaksi sintetis", "RUM pageviews / month": "Pageview RUM / bulan", "Log ingest (GB / day)": "Ingest log (GB / hari)", "License tier": "Tier lisensi", "Licensed nodes (1 each)": "Node berlisensi (1 per node)", "Primary polling protocol": "Protokol polling utama", "Avg monitored elements per node": "Rata-rata elemen termonitor per node", "SAM component monitors": "Component monitor SAM", "SolarWinds agents": "Agent SolarWinds", "NetFlow flows/sec (on-prem)": "NetFlow flow/detik (on-prem)", "Concurrent web users": "Pengguna web bersamaan", "Full-license nodes (1 each)": "Node lisensi penuh (1 per node)", "Cloud VMs / small cloud resources": "VM cloud / resource cloud kecil", "Containers / K8s": "Container / K8s", "Thin APs": "Thin AP", "Edition": "Edisi", "Storage arrays (SRM)": "Storage array (SRM)", "WPM transactions": "Transaksi WPM", "Incident Response users": "Pengguna Incident Response", "SaaS network devices (collector)": "Perangkat jaringan SaaS (collector)", "SaaS servers — Agent": "Server SaaS — Agent", "SaaS servers — agentless": "Server SaaS — agentless", "SaaS flows/sec": "Flow SaaS/detik", "Self-hosted DB instances (DBSH)": "Instance DB self-hosted (DBSH)", "DBaaS instances (DBSHDS)": "Instance DBaaS (DBSHDS)", "VMware registered in DPA?": "VMware terdaftar di DPA?", "DPA Central concurrent users": "Pengguna bersamaan DPA Central", "Routers, switches, firewalls (1:1).": "Router, switch, firewall (1:1).", "10 share 1 entitlement.": "10 berbagi 1 entitlement.", "Agent or collector (1:1).": "Agent atau collector (1:1).", "VMware/Hyper-V/Nutanix host (1:1).": "Host VMware/Hyper-V/Nutanix (1:1).", "3 share 1 entitlement.": "3 berbagi 1 entitlement.", "AWS/Azure services, 3:1.": "Layanan AWS/Azure, 3:1.", "Drives dedicated flow collector sizing (≤40,000 FPS each).": "Menentukan sizing flow collector khusus (≤40.000 FPS per collector).", "Per active service, any # instances.": "Per layanan aktif, berapa pun jumlah instance.", "Per active instance.": "Per instance aktif.", "Distinct targets to monitor.": "Target berbeda yang dimonitor.", "e.g. HTTP(S), TCP, ICMP, DNS.": "mis. HTTP(S), TCP, ICMP, DNS.", "SolarWinds cloud test locations.": "Lokasi uji cloud SolarWinds.", "Agent-based probes hosted inside the customer network for internal endpoints.": "Probe berbasis agent di dalam jaringan pelanggan untuk endpoint internal.", "Added to location count. Each probe is a customer-hosted test location.": "Ditambahkan ke jumlah lokasi. Tiap probe adalah lokasi uji yang di-host pelanggan.", "Scripted multi-step journeys. 2 / bundle (5 checks each).": "Perjalanan multi-langkah terskrip. 2 / bundle (5 check per transaksi).", "Bundles of 100,000 pageviews.": "Bundle per 100.000 pageview.", "Priced per GB/day; org ceiling ≈ 200 GB/hr.": "Dihitung per GB/hari; plafon organisasi ≈ 200 GB/jam.", "Essentials: NPM, SAM, LA, IPAM, UDT, VNQM & Cloud. Advanced adds NTA, NCM, VMAN, SCM, anomaly-based alerting & the security vulnerability dashboard.": "Essentials: NPM, SAM, LA, IPAM, UDT, VNQM & Cloud. Advanced menambah NTA, NCM, VMAN, SCM, anomaly-based alerting & dashboard kerentanan keamanan.", "Servers, network devices, wireless controllers, autonomous APs, and any node with monitoring beyond ICMP status. Exclude ICMP-only status nodes (free).": "Server, perangkat jaringan, wireless controller, AP autonomous, dan node apa pun dengan monitoring di luar status ICMP. Tidak termasuk node status ICMP-only (gratis).", "Standard scales up to 1,500 nodes. Enterprise is required beyond 1,500 nodes and whenever Additional Polling Engines (APEs) are needed.": "Standard sampai 1.500 node. Enterprise wajib di atas 1.500 node dan saat Additional Polling Engine (APE) dibutuhkan.", "Sets per-poller element capacity: SNMPv2 100k · SNMPv3 72k · WMI/WinRM 20k (max 2,000 nodes), at 16 cores.": "Menentukan kapasitas elemen per poller: SNMPv2 100k · SNMPv3 72k · WMI/WinRM 20k (maks 2.000 node), pada 16 core.", "Interfaces, volumes, apps, component monitors per node. Typical 8–12.": "Interface, volume, aplikasi, component monitor per node. Umumnya 8–12.", "40k / APE.": "40k / APE.", "1,000 / poller.": "1.000 / poller.", "50k FPS / poller. Requires Advanced (NTA).": "50k FPS / poller. Butuh Advanced (NTA).", "25–50 / web server.": "25–50 / web server.", "50k FPS / poller.": "50k FPS / poller.", "Servers, network devices, wireless controllers, autonomous APs, paid ICMP nodes. Exclude ICMP-only status nodes (free).": "Server, perangkat jaringan, wireless controller, AP autonomous, node ICMP berbayar. Tidak termasuk node status ICMP-only (gratis).", "3 share 1 node.": "3 berbagi 1 node.", "10 share 1 node.": "10 berbagi 1 node.", "Agentless via Network Collector — up to 7,000 standard devices each.": "Agentless via Network Collector — hingga 7.000 perangkat standar per collector.", "Per-host agent.": "Agent per host.", "Via collector.": "Lewat collector.", "≤40,000 flows/sec per collector.": "≤40.000 flow/detik per collector.", "SQL Server, Oracle, MySQL, MariaDB, PostgreSQL, Db2, SAP ASE/HANA — incl. RDS, Aurora, Cloud SQL, Azure MI. 1 license each.": "SQL Server, Oracle, MySQL, MariaDB, PostgreSQL, Db2, SAP ASE/HANA — termasuk RDS, Aurora, Cloud SQL, Azure MI. 1 lisensi per instance.", "Azure SQL Database and other supported DBaaS targets. 1 license each.": "Azure SQL Database dan target DBaaS lain yang didukung. 1 lisensi per instance.", "Registering VMware raises DPA server CPU & RAM needs by ~50%.": "Mendaftarkan VMware menaikkan kebutuhan CPU & RAM server DPA ~50%.", "Only relevant with multiple DPA servers. DPA Central links servers into one view; co-locate it on a monitoring DPA server.": "Hanya relevan saat server DPA lebih dari satu. DPA Central menyatukan server dalam satu tampilan; tempatkan di salah satu server DPA monitoring.", "Size a full-stack SolarWinds Observability SaaS subscription across all modules — Network, Infrastructure, Application (APM), Database, Digital Experience (Synthetics & RUM), and Logs — using the à-la-carte, entity/consumption-based model. This calculator returns licensable quantities only (no pricing). Because the SaaS backend is hosted by SolarWinds, the only customer-side \"hardware\" to size is the collectors and agents that ship telemetry to the cloud.": "Hitung kebutuhan subscription SolarWinds Observability SaaS full-stack di semua modul — Network, Infrastructure, Application (APM), Database, Digital Experience (Synthetics & RUM), dan Logs — dengan model à-la-carte berbasis entitas/konsumsi. Kalkulator ini hanya menghasilkan kuantitas lisensi (tanpa harga). Karena backend SaaS di-host SolarWinds, satu-satunya \"hardware\" sisi pelanggan yang perlu di-sizing adalah collector dan agent pengirim telemetri ke cloud.", "Size the SolarWinds Observability Self-Hosted (OSH) Essentials or Advanced tier from monitored node capacity, then derive minimum and recommended self-hosted hardware. Both tiers use simple node-based licensing and scale through Standard and Enterprise editions. Poller sizing follows the 2026 scalability guide — per-poller capacity is protocol-dependent, not a flat element count.": "Hitung tier Essentials atau Advanced SolarWinds Observability Self-Hosted (OSH) dari kapasitas node termonitor, lalu turunkan hardware self-hosted minimum dan rekomendasi. Kedua tier memakai lisensi berbasis node sederhana dan menskala lewat edisi Standard dan Enterprise. Sizing poller mengikuti panduan skalabilitas 2026 — kapasitas per poller bergantung protokol, bukan jumlah elemen flat.", "Size the SolarWinds Observability Self-Hosted (OSH) Premier tier from monitored capacity, then derive minimum and recommended hardware for the self-hosted platform and the SaaS side (network collectors and per-host agents). Poller sizing follows the 2026 scalability guide — per-poller capacity is protocol-dependent, not a flat element count.": "Hitung tier Premier SolarWinds Observability Self-Hosted (OSH) dari kapasitas termonitor, lalu turunkan hardware minimum dan rekomendasi untuk platform self-hosted dan sisi SaaS (network collector dan agent per host). Sizing poller mengikuti panduan skalabilitas 2026 — kapasitas per poller bergantung protokol, bukan jumlah elemen flat.", "Size a SolarWinds DPA deployment from the number of monitored database instances. DPA is licensed per monitored database instance — current subscription licenses are DBSH (Database Self-Hosted, any edition of any supported database, VM metrics included) and DBSHDS (Database Self-Hosted DBaaS). Server and repository hardware follow the DPA 2026.2 system requirements, bracketed by instances per DPA server (max 250 each).": "Hitung deployment SolarWinds DPA dari jumlah instance database termonitor. DPA dilisensikan per instance database termonitor — lisensi subscription saat ini adalah DBSH (Database Self-Hosted, semua edisi semua database yang didukung, metrik VM termasuk) dan DBSHDS (Database Self-Hosted DBaaS). Hardware server dan repository mengikuti system requirements DPA 2026.2, dibagi per bracket instance per server DPA (maks 250 per server).", "Reach out to the Westcon team for licensing validation, CPQ quotes, and sizing reviews.": "Hubungi tim Westcon untuk validasi lisensi, penawaran CPQ, dan review sizing.", "How SaaS licensing counts things: each module is licensed separately by the number of active entities (or consumption) monitored in the previous calendar day. Smaller resources share an entitlement — VMs 3:1, cloud services 3:1, containers & wireless APs 10:1. ICMP-only status nodes are included free.": "Cara lisensi SaaS menghitung: tiap modul dilisensikan terpisah berdasarkan jumlah entitas aktif (atau konsumsi) yang termonitor pada hari kalender sebelumnya. Resource kecil berbagi entitlement — VM 3:1, layanan cloud 3:1, container & wireless AP 10:1. Node status ICMP-only gratis.", "Uptime checks = endpoints × locations × protocols. e.g. 20 endpoints × 2 locations × 1 protocol = 40 uptime checks. Each private probe you deploy counts as an additional location, so private probes are added to the location count before multiplying.": "Uptime check = endpoint × lokasi × protokol. mis. 20 endpoint × 2 lokasi × 1 protokol = 40 uptime check. Tiap private probe yang di-deploy dihitung sebagai lokasi tambahan, jadi private probe ditambahkan ke jumlah lokasi sebelum dikalikan.", "How licensing counts nodes: most monitored devices consume one node license each. ICMP-only status nodes (ping availability) are free, and cloud/hypervisor-discovered VMs are free until you assign additional monitoring — then each counts as one full node. Value-based fractional licensing is a Premier-only feature and does not apply to Essentials or Advanced.": "Cara lisensi menghitung node: sebagian besar perangkat termonitor memakai satu lisensi node. Node status ICMP-only (ping availability) gratis, dan VM hasil discovery cloud/hypervisor gratis sampai diberi monitoring tambahan — setelah itu dihitung satu node penuh. Lisensi fraksional berbasis nilai hanya fitur Premier dan tidak berlaku untuk Essentials atau Advanced.", "How licensing counts things: most devices use 1 full license each. Smaller resources share a license — cloud VMs 3-to-1, containers & thin wireless APs 10-to-1. Enter each type in its own field; sharing is applied automatically.": "Cara lisensi menghitung: sebagian besar perangkat memakai 1 lisensi penuh. Resource kecil berbagi lisensi — VM cloud 3-banding-1, container & thin wireless AP 10-banding-1. Isi tiap tipe di kolomnya masing-masing; pembagian dihitung otomatis.", "How DPA licensing counts: one license per monitored database instance. DBSH covers any edition of SQL Server, Oracle, MySQL, MariaDB, PostgreSQL, Db2, SAP ASE & HANA (cloud-hosted equivalents included) and bundles VM metrics — no VM Option needed. DBSHDS covers DBaaS targets such as Azure SQL Database. Licenses float: register more instances than licenses and assign them on the allocation page.": "Cara lisensi DPA menghitung: satu lisensi per instance database termonitor. DBSH mencakup semua edisi SQL Server, Oracle, MySQL, MariaDB, PostgreSQL, Db2, SAP ASE & HANA (termasuk versi cloud) dan sudah termasuk metrik VM — tanpa perlu VM Option. DBSHDS mencakup target DBaaS seperti Azure SQL Database. Lisensi bersifat floating: daftarkan lebih banyak instance dari lisensi dan alokasikan di halaman allocation."};
+var SEL='h1,h2,h3,.sub,.panel-title,.field-label,.field-hint,.sub-head,.explainer,.badge,.cap,summary,.check span,.section-tag';
+function norm(t){return t.replace(/\s+/g,' ').trim();}
+function apply(lang){
+  document.querySelectorAll(SEL).forEach(function(el){
+    if(!el.dataset.enKey){var k=norm(el.textContent);if(DICT[k]){el.dataset.enKey=k;el.dataset.enHtml=el.innerHTML;}else return;}
+    if(lang==='id'){el.textContent=DICT[el.dataset.enKey];}else{el.innerHTML=el.dataset.enHtml;}
+  });
+  document.querySelectorAll('.out-label').forEach(function(el){
+    var t=el.firstChild;if(!t||t.nodeType!==3)return;
+    if(!el.dataset.enLabel){var k=norm(t.nodeValue);if(DICT[k]){el.dataset.enLabel=k;}else return;}
+    t.nodeValue=(lang==='id'?DICT[el.dataset.enLabel]:el.dataset.enLabel)+' ';
+  });
+  document.querySelectorAll('.lang-btn').forEach(function(b){b.classList.toggle('active',b.dataset.lang===lang);});
+  document.documentElement.setAttribute('lang',lang==='id'?'id':'en');
+  try{localStorage.setItem('swsizing-lang',lang);}catch(e){}
+}
+document.querySelectorAll('.lang-btn').forEach(function(b){b.addEventListener('click',function(){apply(b.dataset.lang);});});
+var saved='en';try{saved=localStorage.getItem('swsizing-lang')||'en';}catch(e){}
+if(saved==='id')apply('id');
+})();
+</script>
 </body>
 </html>
