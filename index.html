@@ -124,6 +124,7 @@ tr.total td{font-weight:600;border-top:2px solid var(--artifact-border-dark);bac
 <button class="tab-btn active" data-tab="sw">SWO SaaS</button>
 <button class="tab-btn" data-tab="ea">OSH Essentials & Advanced</button>
 <button class="tab-btn" data-tab="pr">OSH Premier</button>
+<button class="tab-btn" data-tab="dpa">DPA</button>
 <button class="tab-btn" data-tab="contact">Contact</button>
 </nav>
 <section class="tab-panel active" id="panel-sw">
@@ -736,6 +737,177 @@ tr.total td{font-weight:600;border-top:2px solid var(--artifact-border-dark);bac
   <p class="foot-note">Indicative SE sizing estimate. Pricing, value-based licensing weights, protocol mix, and final hardware must be validated in CPQ and against the customer's live license report and current 2026 system-requirements / scalability documentation before quoting.</p>
 </div>
 </section>
+<section class="tab-panel" id="panel-dpa">
+<div class="shell">
+  <p class="eyebrow">SolarWinds · Solutions Engineering · APJ</p>
+  <h1 data-glean-id="title">Database Performance Analyzer (DPA)<br>License &amp; Server Sizing Calculator</h1>
+  <p class="sub" data-glean-id="intro">Size a SolarWinds DPA deployment from the number of monitored database instances. DPA is licensed <strong>per monitored database instance</strong> — current subscription licenses are <strong>DBSH</strong> (Database Self-Hosted, any edition of any supported database, VM metrics included) and <strong>DBSHDS</strong> (Database Self-Hosted DBaaS). Server and repository hardware follow the DPA 2026.2 system requirements, bracketed by instances per DPA server (max 250 each).</p>
+
+  <div class="layout">
+    <!-- INPUTS -->
+    <div class="panel">
+      <p class="panel-title">Licensing inputs</p>
+      <div class="explainer">
+        <strong>How DPA licensing counts:</strong> one license per monitored database instance. DBSH covers any edition of SQL Server, Oracle, MySQL, MariaDB, PostgreSQL, Db2, SAP ASE &amp; HANA (cloud-hosted equivalents included) and bundles VM metrics — no VM Option needed. DBSHDS covers DBaaS targets such as Azure SQL Database. Licenses float: register more instances than licenses and assign them on the allocation page.
+      </div>
+      <div class="field">
+        <label class="field-label" for="dpa-i-dbsh">Self-hosted DB instances (DBSH)</label>
+        <p class="field-hint">SQL Server, Oracle, MySQL, MariaDB, PostgreSQL, Db2, SAP ASE/HANA — incl. RDS, Aurora, Cloud SQL, Azure MI. 1 license each.</p>
+        <input type="number" id="dpa-i-dbsh" min="0" value="60">
+      </div>
+      <div class="field">
+        <label class="field-label" for="dpa-i-dbshds">DBaaS instances (DBSHDS)</label>
+        <p class="field-hint">Azure SQL Database and other supported DBaaS targets. 1 license each.</p>
+        <input type="number" id="dpa-i-dbshds" min="0" value="0">
+      </div>
+      <div class="row2">
+        <div class="field"><label class="field-label" for="dpa-i-add">Planned additions</label><input type="number" id="dpa-i-add" min="0" value="0"></div>
+        <div class="field"><label class="field-label" for="dpa-i-headroom">Growth headroom %</label><input type="number" id="dpa-i-headroom" min="0" max="200" value="10"></div>
+      </div>
+
+      <p class="sub-head">Server sizing workload</p>
+      <div class="field">
+        <label class="field-label">VMware registered in DPA?</label>
+        <p class="field-hint">Registering VMware raises DPA server CPU &amp; RAM needs by ~50%.</p>
+        <div class="seg" id="dpa-seg-vmware"><button data-v="no" class="active">No</button><button data-v="yes">Yes</button></div>
+      </div>
+      <div class="field">
+        <label class="field-label" for="dpa-i-centralusers">DPA Central concurrent users</label>
+        <p class="field-hint">Only relevant with multiple DPA servers. DPA Central links servers into one view; co-locate it on a monitoring DPA server.</p>
+        <input type="number" id="dpa-i-centralusers" min="0" value="0">
+      </div>
+    </div>
+
+    <!-- OUTPUTS -->
+    <div>
+      <div class="result-hero">
+        <div class="out-label">Total DPA licenses required
+          <span class="info" tabindex="0"><span class="ico">i</span><span class="tip">Monitored instances + planned additions, then + growth headroom %. One license per monitored database instance.</span></span>
+        </div>
+        <div class="metric" id="dpa-o-total">—</div>
+        <span class="badge">Per monitored DB instance · confirm in CPQ</span>
+      </div>
+      <div class="grid-out">
+        <div class="out-card">
+          <div class="out-label">DBSH licenses
+            <span class="info" tabindex="0"><span class="ico">i</span><span class="tip">Database Self-Hosted — any edition of any supported database type; VM metrics included.</span></span>
+          </div>
+          <div class="out-value" id="dpa-o-dbsh">—</div>
+          <div class="note" id="dpa-o-dbsh-note"></div>
+        </div>
+        <div class="out-card">
+          <div class="out-label">DBSHDS licenses
+            <span class="info" tabindex="0"><span class="ico">i</span><span class="tip">Database Self-Hosted DBaaS — supported DBaaS targets such as Azure SQL Database.</span></span>
+          </div>
+          <div class="out-value" id="dpa-o-dbshds">—</div>
+          <div class="note" id="dpa-o-dbshds-note"></div>
+        </div>
+        <div class="out-card">
+          <div class="out-label">DPA servers required
+            <span class="info" tabindex="0"><span class="ico">i</span><span class="tip">One DPA server monitors up to 250 instances. Beyond that, add servers and link them with DPA Central.</span></span>
+          </div>
+          <div class="out-value" id="dpa-o-servers">—</div>
+          <div class="note" id="dpa-o-servers-note"></div>
+        </div>
+        <div class="out-card">
+          <div class="out-label">Deployment bracket
+            <span class="info" tabindex="0"><span class="ico">i</span><span class="tip">System-requirements bracket per DPA server: 1–20, 21–50, 51–100 or 101–250 monitored instances.</span></span>
+          </div>
+          <div class="out-value" id="dpa-o-bracket">—</div>
+          <div class="note" id="dpa-o-bracket-note"></div>
+        </div>
+      </div>
+      <div id="dpa-o-flags"></div>
+    </div>
+  </div>
+
+  <!-- LICENSE SUMMARY -->
+  <div class="block">
+    <p class="section-tag">Licensing</p>
+    <h2>License summary</h2>
+    <p class="note">Licensable quantities for the current scope. Confirm all quantities in CPQ.</p>
+    <table>
+      <thead><tr><th>License</th><th>Unit of measure</th><th>Quantity</th></tr></thead>
+      <tbody id="dpa-lic-body"></tbody>
+    </table>
+  </div>
+
+  <!-- HARDWARE -->
+  <div class="block">
+    <p class="section-tag">Hardware sizing</p>
+    <h2>DPA server &amp; repository — Minimum vs Recommended</h2>
+    <p class="note" id="dpa-hw-summary"></p>
+    <div class="hw-grid">
+      <div class="hw-card">
+        <h3>1 · Minimum hardware</h3>
+        <p class="cap" id="dpa-hw-min-cap"></p>
+        <table><thead><tr><th>Component</th><th>Qty</th><th>CPU</th><th>RAM</th><th>Storage</th></tr></thead><tbody id="dpa-hw-min"></tbody></table>
+      </div>
+      <div class="hw-card">
+        <h3>2 · Recommended hardware</h3>
+        <p class="cap" id="dpa-hw-rec-cap"></p>
+        <table><thead><tr><th>Component</th><th>Qty</th><th>CPU</th><th>RAM</th><th>Storage</th></tr></thead><tbody id="dpa-hw-rec"></tbody></table>
+      </div>
+    </div>
+    <p class="note" style="margin-top:14px">Repository RAM is shown as the database cache dedicated to DPA. Repository runs on SQL Server (Std/Ent), MySQL, Oracle or Azure SQL Database (Std tier+); Azure SQL Managed Instance is not supported as repository. Installing DPA on the repository server means meeting both spec sets combined.</p>
+  </div>
+
+  <!-- LICENSE TYPE REFERENCE -->
+  <div class="block">
+    <p class="section-tag">Reference</p>
+    <h2>License types</h2>
+    <table>
+      <thead><tr><th>License</th><th>Status</th><th>Coverage</th></tr></thead>
+      <tbody>
+        <tr><td>DBSH — Database Self-Hosted</td><td>Current subscription</td><td>Any edition of any supported database type (SQL Server, Oracle EE/SE/XE, MySQL, MariaDB, PostgreSQL/EDB, Db2, SAP ASE, SAP HANA, incl. RDS/Aurora/Cloud SQL/Azure equivalents). VM metrics included — no VM Option needed.</td></tr>
+        <tr><td>DBSHDS — DBSH DBaaS</td><td>Current subscription</td><td>Supported DBaaS targets, such as Azure SQL Database.</td></tr>
+        <tr><td>Category 1 / Category 2</td><td>Legacy (≤ DPA 2024.3)</td><td>Edition-based: Cat 1 required for Oracle EE &amp; SAP ASE; Cat 2 covers Express/lower-tier editions and Azure SQL DB. No functional difference between categories.</td></tr>
+        <tr><td>Azure SQL Database</td><td>Legacy (≤ DPA 2024.3)</td><td>Azure SQL Database instances.</td></tr>
+        <tr><td>VM Option</td><td>Legacy (≤ DPA 2024.3)</td><td>Add-on to Cat 1/Cat 2 for VM &amp; host metrics (Virtualization view).</td></tr>
+      </tbody>
+    </table>
+    <p class="note" style="margin-top:12px">DBSH &amp; DBSHDS keys are shared with SQL Sentry — e.g. a 10-license key can cover 5 instances in each product. AWS Marketplace deployments are metered per instance per hour through Amazon instead of DPA licenses. Trial allows 14 days of unlicensed monitoring.</p>
+  </div>
+
+  <!-- SIZING REFERENCE -->
+  <div class="block">
+    <p class="section-tag">Reference</p>
+    <h2>DPA 2026.2 sizing brackets (per DPA server)</h2>
+    <table>
+      <thead><tr><th>Monitored instances</th><th>DPA server (CPU · RAM · Disk)</th><th>Repository DB (CPU · cache · Disk)</th></tr></thead>
+      <tbody>
+        <tr><td>1 – 20</td><td>4 cores · 10 GB · 40 GB</td><td>6 cores · 8 GB · 240 GB</td></tr>
+        <tr><td>21 – 50</td><td>6 cores · 16 GB · 55 GB</td><td>8 cores · 16 GB · 600 GB</td></tr>
+        <tr><td>51 – 100</td><td>8 cores · 24 GB · 75 GB</td><td>12 cores · 32 GB · 1.2 TB</td></tr>
+        <tr><td>101 – 250</td><td>12 cores · 40 GB · 150 GB</td><td>16 cores · 64 GB · 3 TB</td></tr>
+      </tbody>
+    </table>
+    <p class="note" style="margin-top:12px">Above 250 instances, deploy additional DPA servers linked by DPA Central (0–50 users: 4 cores · 4 GB · 20 GB; 51–100 users: 6 cores · 6 GB · 20 GB, added to a monitoring server's spec). Registering VMware raises DPA server CPU &amp; RAM by ~50%.</p>
+  </div>
+
+  <!-- ASSUMPTIONS -->
+  <div class="block assump">
+    <h2>How this is calculated</h2>
+    <ul>
+      <li>DPA licenses are counted <strong>per monitored database instance</strong> (self-managed and Azure Marketplace). AWS Marketplace deployments are metered per instance per hour through Amazon and need no DPA licenses; licenses and metering cannot mix on one server.</li>
+      <li><strong>DBSH</strong> covers any edition of any supported database type and includes VM metrics. <strong>DBSHDS</strong> covers DBaaS targets such as Azure SQL Database. Legacy Cat 1 / Cat 2 / Azure SQL DB / VM Option licenses apply to DPA 2024.3 and earlier only.</li>
+      <li>Licenses float — more instances can be registered than licensed, with licenses assigned on the allocation page. Unlicensed instances stop collecting new data but keep historical data viewable.</li>
+      <li><strong>Server count</strong> = total instances ÷ 250 (rounded up); instances are split evenly across servers and each server is sized by its bracket (1–20 / 21–50 / 51–100 / 101–250) from the DPA 2026.2 system requirements. Recommended uses the next bracket up plus a dedicated repository server.</li>
+      <li>Multiple DPA servers are linked via <strong>DPA Central</strong>, co-located on a monitoring server (not a dedicated box), sized by concurrent users.</li>
+    </ul>
+    <details>
+      <summary>Sources</summary>
+      <ul style="margin-top:12px">
+        <li><a href="https://documentation.solarwinds.com/en/success_center/dpa/content/dpa_licensing_model.htm">DPA licensing model</a> — per-instance counting, DBSH/DBSHDS, legacy Cat 1/Cat 2, floating licenses, SQL Sentry shared keys, AWS metering.</li>
+        <li><a href="https://documentation.solarwinds.com/en/Success_Center/DPA/Content/Install-DPA-Requirements.htm">DPA 2026.2 system requirements</a> — DPA server &amp; repository brackets, DPA Central recommendations, repository database support.</li>
+      </ul>
+    </details>
+  </div>
+
+  <p class="foot-note">Indicative SE sizing estimate for SolarWinds DPA. License quantities, license types, and final hardware must be validated in CPQ and against the customer's live environment and current DPA system-requirements documentation before quoting.</p>
+</div>
+</section>
+
 <section class="tab-panel" id="panel-contact">
 <div class="shell">
   <p class="eyebrow">SolarWinds Sizing &middot; by Westcon ID Team</p>
@@ -1217,6 +1389,99 @@ calc();
 </script>
 
 <script>
+(function(){
+function $id(x){return document.getElementById('dpa-'+x);}
+
+var MAX_PER_SERVER=250;
+var BRACKETS=[
+  {max:20, label:'1\u201320', app:{c:'4',r:'10',d:'40 GB'},  repo:{c:'6',r:'8',d:'240 GB'}},
+  {max:50, label:'21\u201350', app:{c:'6',r:'16',d:'55 GB'},  repo:{c:'8',r:'16',d:'600 GB'}},
+  {max:100,label:'51\u2013100',app:{c:'8',r:'24',d:'75 GB'},  repo:{c:'12',r:'32',d:'1.2 TB'}},
+  {max:250,label:'101\u2013250',app:{c:'12',r:'40',d:'150 GB'},repo:{c:'16',r:'64',d:'3 TB'}}
+];
+var CENTRAL_SMALL={c:'+4',r:'+4',d:'+20 GB'};
+var CENTRAL_LARGE={c:'+6',r:'+6',d:'+20 GB'};
+var state={vmware:'no'};
+
+function fmt(n){return Math.round(n).toLocaleString('en-US');}
+function val(id){var el=$id(id);return el?parseFloat(el.value)||0:0;}
+function bracketIdx(n){for(var i=0;i<BRACKETS.length;i++){if(n<=BRACKETS[i].max)return i;}return BRACKETS.length-1;}
+function row(name,qty,spec,note){if(qty<=0)return '';return '<tr><td>'+name+(note?' <span style="color:var(--artifact-text-secondary)">'+note+'</span>':'')+'</td><td>'+qty+'</td><td>'+spec.c+'</td><td>'+spec.r+' GB</td><td>'+spec.d+'</td></tr>';}
+function empty(){return '<tr><td colspan="5" style="color:var(--artifact-text-secondary)">Enter monitored instances to size the deployment</td></tr>';}
+
+function calc(){
+  var dbsh=val('i-dbsh'), dbshds=val('i-dbshds'), add=val('i-add'), headroom=val('i-headroom');
+  var centralUsers=val('i-centralusers');
+  var total=Math.ceil((dbsh+dbshds+add)*(1+headroom/100));
+  var dbshLic=Math.ceil((dbsh+add)*(1+headroom/100));
+  var dbshdsLic=Math.ceil(dbshds*(1+headroom/100));
+
+  $id('o-total').innerHTML=fmt(total)+' <small>licenses</small>';
+
+  $id('o-dbsh').innerHTML=fmt(dbshLic)+' <small>instances</small>';
+  $id('o-dbsh-note').textContent=dbsh>0||add>0?fmt(dbsh)+' current'+(add>0?' + '+fmt(add)+' additions':'')+(headroom>0?' + '+headroom+'% headroom':''):'No self-hosted instances';
+
+  $id('o-dbshds').innerHTML=fmt(dbshdsLic)+' <small>instances</small>';
+  $id('o-dbshds-note').textContent=dbshds>0?fmt(dbshds)+' DBaaS'+(headroom>0?' + '+headroom+'% headroom':''):'No DBaaS instances';
+
+  var servers=total>0?Math.ceil(total/MAX_PER_SERVER):0;
+  var perServer=servers>0?Math.ceil(total/servers):0;
+  var bi=perServer>0?bracketIdx(perServer):0;
+  var bRec=Math.min(bi+1,BRACKETS.length-1);
+
+  $id('o-servers').innerHTML=servers>0?servers+' <small>server'+(servers>1?'s':'')+'</small>':'\u2014';
+  $id('o-servers-note').textContent=servers>1?('~'+fmt(perServer)+' instances each \u00b7 linked via DPA Central'):(servers===1?'Single server, \u2264250 instances':'');
+
+  $id('o-bracket').textContent=perServer>0?BRACKETS[bi].label+' instances':'\u2014';
+  $id('o-bracket-note').textContent=perServer>0?'Per DPA server ('+fmt(perServer)+' instances)':'';
+
+  var rows=[];
+  if(dbshLic>0)rows.push(['DBSH \u2014 Database Self-Hosted','Monitored DB instance',fmt(dbshLic)]);
+  if(dbshdsLic>0)rows.push(['DBSHDS \u2014 DBSH DBaaS','Monitored DBaaS instance',fmt(dbshdsLic)]);
+  var html=rows.map(function(r){return '<tr><td>'+r[0]+'</td><td>'+r[1]+'</td><td>'+r[2]+'</td></tr>';}).join('');
+  if(rows.length>1)html+='<tr class="total"><td>Total</td><td>Monitored instances</td><td>'+fmt(total)+'</td></tr>';
+  $id('lic-body').innerHTML=html||'<tr><td colspan="3" style="color:var(--artifact-text-secondary)">Enter monitored instances to build the estimate</td></tr>';
+
+  var vm=state.vmware==='yes';
+  if(perServer>0){
+    var sMin=BRACKETS[bi], sRec=BRACKETS[bRec];
+    $id('hw-summary').textContent=fmt(total)+' monitored instances \u2192 '+servers+' DPA server'+(servers>1?'s':'')+' ('+sMin.label+' bracket each)'+(vm?' \u00b7 VMware registered: +50% CPU/RAM on DPA servers':'')+'.';
+    $id('hw-min-cap').textContent=sMin.label+'-instance bracket \u00b7 documented minimum spec';
+    $id('hw-rec-cap').textContent=sRec.label+'-instance bracket spec \u00b7 headroom + dedicated repository';
+
+    var centralSpec=centralUsers>50?CENTRAL_LARGE:CENTRAL_SMALL;
+    var mn='';
+    mn+=row('DPA Server',servers,sMin.app,'\u2264250 instances each'+(vm?' \u00b7 +50% for VMware':''));
+    mn+=row('Repository DB server',servers,sMin.repo,'cache GB \u00b7 SQL Server / MySQL / Oracle');
+    if(servers>1)mn+=row('DPA Central',1,centralSpec,'co-located on a DPA server \u00b7 '+(centralUsers>50?'51\u2013100':'0\u201350')+' users');
+    $id('hw-min').innerHTML=mn||empty();
+
+    var rc='';
+    rc+=row('DPA Server',servers,sRec.app,'next-bracket headroom'+(vm?' \u00b7 +50% for VMware':''));
+    rc+=row('Repository DB server',servers,sRec.repo,'dedicated \u00b7 cache GB');
+    if(servers>1)rc+=row('DPA Central',1,centralSpec,'co-located \u00b7 '+(centralUsers>50?'51\u2013100':'0\u201350')+' users');
+    $id('hw-rec').innerHTML=rc||empty();
+  }else{
+    $id('hw-summary').textContent='';
+    $id('hw-min-cap').textContent='';$id('hw-rec-cap').textContent='';
+    $id('hw-min').innerHTML=empty();$id('hw-rec').innerHTML=empty();
+  }
+
+  var flags=[];
+  if(total>MAX_PER_SERVER)flags.push({t:'warn',m:'More than 250 monitored instances \u2014 '+servers+' DPA servers required, linked through DPA Central for a single view.'});
+  if(vm)flags.push({t:'warn',m:'VMware registered in DPA \u2014 increase DPA server CPU and RAM requirements by ~50%.'});
+  if(centralUsers>100)flags.push({t:'warn',m:'DPA Central is sized up to 100 concurrent users \u2014 validate larger user counts with SolarWinds.'});
+  if(total>0)flags.push({t:'pos',m:'DBSH/DBSHDS keys are shared with SQL Sentry \u2014 one key can cover instances in either product.'});
+  $id('o-flags').innerHTML=flags.map(function(f){return '<div class="flag '+f.t+'">'+f.m+'</div>';}).join('');
+}
+
+['i-dbsh','i-dbshds','i-add','i-headroom','i-centralusers'].forEach(function(id){var el=$id(id);el.addEventListener('input',calc);el.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();calc();}});});
+(function(){var seg=$id('seg-vmware');seg.querySelectorAll('button').forEach(function(b){b.addEventListener('click',function(){seg.querySelectorAll('button').forEach(function(x){x.classList.remove('active');});b.classList.add('active');state.vmware=b.dataset.v;calc();});});})();
+calc();
+
+})();
+</script>
+\n<script>
 (function(){
   var btns=document.querySelectorAll('.tab-btn'),panels=document.querySelectorAll('.tab-panel');
   btns.forEach(function(b){b.addEventListener('click',function(){
