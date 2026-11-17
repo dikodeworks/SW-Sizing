@@ -1,1 +1,1 @@
-# SW-Sizing
+# SolarWinds-Sizing
