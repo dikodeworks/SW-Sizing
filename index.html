@@ -137,6 +137,7 @@ tr.total td{font-weight:600;border-top:2px solid var(--artifact-border-dark);bac
 <button class="tab-btn" data-tab="ea">OSH Essentials & Advanced</button>
 <button class="tab-btn" data-tab="pr">OSH Premier</button>
 <button class="tab-btn" data-tab="dpa">DPA</button>
+<button class="tab-btn" data-tab="sd">Service Desk</button>
 <div class="lang-seg" aria-label="Language">
 <button class="lang-btn active" data-lang="en">EN</button>
 <button class="lang-btn" data-lang="id">ID</button>
@@ -968,6 +969,170 @@ tr.total td{font-weight:600;border-top:2px solid var(--artifact-border-dark);bac
 </div>
 </section>
 
+<section class="tab-panel" id="panel-sd">
+<div class="shell">
+  <p class="eyebrow">SolarWinds · Solutions Engineering · APJ</p>
+  <h1 data-glean-id="title">SolarWinds Service Desk (ITSM)<br>License &amp; Plan Sizing Calculator</h1>
+  <p class="sub" data-glean-id="intro">Size a SolarWinds Service Desk subscription from the number of technicians who manage and resolve work. Service Desk is licensed <strong>per technician, per month, billed annually</strong> — requestors (employees who submit and track tickets) are <strong>unlimited and free</strong> on every plan. Choose <strong>Essentials</strong>, <strong>Advanced</strong> or <strong>Premier</strong>, add growth headroom, and quantify the Asset Management device scope.</p>
+
+  <div class="layout">
+    <!-- INPUTS -->
+    <div class="panel" data-glean-id="inputs">
+      <p class="panel-title">Licensing inputs</p>
+      <div class="explainer" data-glean-id="how-counting">
+        <strong>How Service Desk licensing counts:</strong> only technicians need a paid license — one per technician, regardless of how many requestors use the service portal. Plans are cumulative: Advanced adds automation, ESM, network discovery and API access; Premier adds AI incident guidance, visual CMDB and a sandbox. Asset Management is an add-on quoted separately, driven by network-capable devices.
+      </div>
+
+      <div class="field" data-glean-id="in-plan">
+        <label class="field-label">Plan</label>
+        <p class="field-hint">Auto recommends the smallest plan covering the capability requirements below. Manual selections are escalated if they cannot cover them.</p>
+        <div class="seg" id="sd-seg-plan"><button data-p="auto" class="active">Auto</button><button data-p="essentials">Essentials</button><button data-p="advanced">Advanced</button><button data-p="premier">Premier</button></div>
+      </div>
+
+      <p class="sub-head" data-glean-id="cap-head">Capability requirements</p>
+      <div class="field checkbox-field" data-glean-id="in-need-adv">
+        <label class="check"><input type="checkbox" id="sd-i-need-adv"> <span>Advanced ITSM capabilities</span></label>
+        <p class="field-hint">Advanced automations, runbooks, Virtual Agent, ESM, network discovery, contract management, audit history, data masking and API access.</p>
+      </div>
+      <div class="field checkbox-field" data-glean-id="in-need-prem">
+        <label class="check"><input type="checkbox" id="sd-i-need-prem"> <span>Premier AI &amp; visual CMDB</span></label>
+        <p class="field-hint">AI incident summaries &amp; guided solutions, AI-generated responses, visual CMDB / dependency mapping, sandbox and Premier Virtual Agent.</p>
+      </div>
+
+      <p class="sub-head" data-glean-id="tech-head">Technician scope</p>
+      <div class="field" data-glean-id="in-tech"><label class="field-label" for="sd-i-tech">Licensed technicians</label><p class="field-hint">Users who manage incidents, requests, changes, assets or workflows.</p><input type="number" id="sd-i-tech" min="0" value="12"></div>
+      <div class="field" data-glean-id="in-add"><label class="field-label" for="sd-i-add">Planned additions</label><p class="field-hint">New technicians expected during the term.</p><input type="number" id="sd-i-add" min="0" value="3"></div>
+      <div class="field" data-glean-id="in-headroom">
+        <label class="field-label" for="sd-i-headroom">Growth headroom %</label>
+        <p class="field-hint">Buffer for team growth and role changes. Applied before rounding up.</p>
+        <input type="number" id="sd-i-headroom" min="0" max="200" value="10">
+      </div>
+
+      <p class="sub-head" data-glean-id="portal-head">Portal &amp; assets</p>
+      <div class="field" data-glean-id="in-requestors"><label class="field-label" for="sd-i-requestors">Employees / requestors</label><p class="field-hint">Unlimited on every plan — no license required.</p><input type="number" id="sd-i-requestors" min="0" value="500"></div>
+      <div class="field" data-glean-id="in-devices"><label class="field-label" for="sd-i-devices">Network-capable devices</label><p class="field-hint">Computers, servers, mobile devices, VMs &amp; network gear tracked in Asset Management / CMDB.</p><input type="number" id="sd-i-devices" min="0" value="350"></div>
+      <div class="field" data-glean-id="in-nonnetwork">
+        <label class="field-label" for="sd-i-nonnetwork">Non-network assets (optional)</label>
+        <p class="field-hint">Furniture, office equipment or supplies. Tracked in the CMDB but do not count toward the network-capable device limit.</p>
+        <input type="number" id="sd-i-nonnetwork" min="0" value="0">
+      </div>
+    </div>
+
+    <!-- OUTPUTS -->
+    <div data-glean-id="outputs">
+      <div class="result-hero" data-glean-id="hero">
+        <div class="out-label">Recommended plan
+          <span class="info" tabindex="0"><span class="ico">i</span><span class="tip">Smallest published plan covering the selected capability requirements. CPQ confirms plan eligibility and any current promotions.</span></span>
+        </div>
+        <div class="metric" id="sd-o-plan">—</div>
+        <span class="badge" id="sd-o-badge">—</span>
+      </div>
+      <div class="grid-out">
+        <div class="out-card" data-glean-id="o-tech-card">
+          <div class="out-label">Technician licenses required
+            <span class="info" tabindex="0"><span class="ico">i</span><span class="tip">Licensed technicians + planned additions, then + growth headroom %, rounded up. One license per technician.</span></span>
+          </div>
+          <div class="out-value" id="sd-o-tech">—</div>
+          <div class="note" id="sd-o-tech-note"></div>
+        </div>
+        <div class="out-card" data-glean-id="o-requestors-card">
+          <div class="out-label">Requestors
+            <span class="info" tabindex="0"><span class="ico">i</span><span class="tip">Employees who submit requests, track ticket status or use the service portal. Unlimited on every plan and never consume technician licenses.</span></span>
+          </div>
+          <div class="out-value" id="sd-o-requestors">Unlimited</div>
+          <div class="note" id="sd-o-requestors-note"></div>
+        </div>
+        <div class="out-card" data-glean-id="o-devices-card">
+          <div class="out-label">Managed network devices
+            <span class="info" tabindex="0"><span class="ico">i</span><span class="tip">Asset Management is an add-on quoted separately. Network-capable devices count toward the asset limit even when their IPs are not actively tracked.</span></span>
+          </div>
+          <div class="out-value" id="sd-o-devices">—</div>
+          <div class="note" id="sd-o-devices-note"></div>
+        </div>
+      </div>
+      <div id="sd-o-flags"></div>
+      <p class="sub-head contact-head">Contact us</p>
+      <div class="contact-strip">
+        <div class="contact-card">
+          <span class="c-role">Product Manager</span>
+          <span class="c-name">Vera Pratiwi</span>
+          <a href="mailto:Vera.Pratiwi@westcon.com">Vera.Pratiwi@westcon.com</a>
+        </div>
+        <div class="contact-card">
+          <span class="c-role">Sales Engineer</span>
+          <span class="c-name">Teguh P. Mulyo</span>
+          <a href="mailto:teguh.mulyo@westcon.com">teguh.mulyo@westcon.com</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LICENSE SUMMARY -->
+  <div class="block" data-glean-id="license-summary">
+    <p class="section-tag">Licensing</p>
+    <h2>Plan &amp; license summary</h2>
+    <p class="note">Licensable quantities for the current scope. Confirm plan, technicians and asset add-on in CPQ.</p>
+    <table>
+      <thead><tr><th>Item</th><th>Unit of measure</th><th>Quantity</th></tr></thead>
+      <tbody id="sd-lic-body"></tbody>
+    </table>
+    <p class="note" style="margin-top:12px">Asset Management (network-capable devices) is priced on request; the device quantity above is scope only, not a license count.</p>
+  </div>
+
+  <!-- PLAN COMPARISON -->
+  <div class="block" data-glean-id="plan-table">
+    <p class="section-tag">Reference</p>
+    <h2>Plan comparison</h2>
+    <p class="note">Selected plan highlighted. Plans are cumulative — Advanced includes Essentials, Premier includes Essentials and Advanced.</p>
+    <table>
+      <thead><tr><th>Capability</th><th id="sd-th-ess">Essentials</th><th id="sd-th-adv">Advanced</th><th id="sd-th-prem">Premier</th></tr></thead>
+      <tbody id="sd-module-body"></tbody>
+    </table>
+    <p class="note" style="margin-top:12px">Every plan supports unlimited requestors. Premier raises API access to up to 1,500 calls/user/minute and adds the full AI and visual CMDB feature set.</p>
+  </div>
+
+  <!-- INCLUDED -->
+  <div class="block" data-glean-id="included">
+    <p class="section-tag">Reference</p>
+    <h2>Included in every plan</h2>
+    <table>
+      <thead><tr><th>Included</th><th>Detail</th></tr></thead>
+      <tbody>
+        <tr><td>Unlimited requestors</td><td>Support any number of employees through the service portal without adding technician licenses.</td></tr>
+        <tr><td>Email &amp; community support</td><td>Product support by email plus the SolarWinds THWACK community.</td></tr>
+        <tr><td>Product updates</td><td>SolarWinds keeps every customer instance continuously up to date.</td></tr>
+        <tr><td>Annual billing</td><td>Subscription fees are billed annually at the start of the contract.</td></tr>
+        <tr><td>30-day free trial</td><td>Full access to Premier features during evaluation, then choose the plan and technician count.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ASSUMPTIONS -->
+  <div class="block assump" data-glean-id="assumptions">
+    <h2>How this is calculated</h2>
+    <ul>
+      <li><strong>Licensing is per technician.</strong> A technician is a licensed user who manages incidents, fulfills requests, defines SLAs, coordinates changes, manages assets, builds reports, configures automations or administers workflows. Employees who only submit or track tickets are requestors and need no paid license — requestors are unlimited on every plan.</li>
+      <li><strong>Plans are cumulative.</strong> Essentials covers core ITSM (incident, knowledge, service portal, asset management, service catalog, change management, CMDB, SLA, groups, custom roles, MFA, internationalization, live chat support). Advanced adds custom fields/forms, advanced automations, runbooks, Virtual Agent, ESM, network discovery, contract management, license compliance, change/response templates, scheduled reports, audit history, data masking and API access. Premier adds AI incident summaries, AI-guided solutions, intelligent incident/problem linking, AI-generated responses, visual CMDB &amp; dependency mapping, sandbox, Virtual Agent Premier, Data Masking Premier and up to 1,500 API calls/user/minute.</li>
+      <li><strong>Technician quantity</strong> = current technicians + planned additions, then + growth headroom %, rounded up to the next whole license.</li>
+      <li><strong>Plan selection:</strong> Auto picks the smallest plan covering the selected capability requirements. A manually selected plan is escalated when the required capabilities are only available in a higher plan.</li>
+      <li><strong>Asset Management</strong> is an add-on quoted separately. Network-capable IT assets (computers, servers, mobile devices, VMs, network devices) count toward the asset limit even when their IP addresses are not actively tracked; non-network assets can be imported and tracked but do not count toward the network-capable device limit.</li>
+      <li><strong>No customer-side infrastructure to size</strong> — Service Desk is fully hosted and updated by SolarWinds. Customer-side effort is limited to integrations, SSO/identity, discovery and data import. Data-center region (US, EU or Australia) is selected at deployment.</li>
+      <li><strong>Term and pricing</strong> are billed annually per technician; requestors remain unlimited. Asset pricing, volume discounts and multi-year terms must be confirmed in CPQ.</li>
+    </ul>
+    <details>
+      <summary>Sources</summary>
+      <ul style="margin-top:12px">
+        <li><a href="https://www.solarwinds.com/service-desk/pricing">Service Desk plans &amp; packaging</a> — Essentials, Advanced and Premier feature lists; unlimited requestors; annual billing; asset pricing on request; 30-day trial.</li>
+        <li><a href="https://www.solarwinds.com/service-desk/compare">Service Desk plan comparison</a> — capability differences between Essentials, Advanced and Premier.</li>
+        <li><a href="https://www.solarwinds.com/service-desk">SolarWinds Service Desk</a> — product overview, integrations and ITSM capabilities.</li>
+      </ul>
+    </details>
+  </div>
+
+  <p class="foot-note">Indicative SE sizing estimate for SolarWinds Service Desk. Plan, technician quantity and asset add-on must be validated in CPQ and against the customer's live subscription and current Service Desk documentation before quoting.</p>
+</div>
+</section>
+
 <script>
 (function(){
 function $id(x){return document.getElementById('sw-'+x);}
@@ -1520,7 +1685,113 @@ calc();
 
 })();
 </script>
-\n<script>
+
+<script>
+(function(){
+function $id(x){return document.getElementById('sd-'+x);}
+
+var PLANS=['essentials','advanced','premier'];
+var LABEL={essentials:'Essentials',advanced:'Advanced',premier:'Premier'};
+var state={plan:'auto'};
+
+var MODULES=[
+  ['Incident & request management',1,1,1],
+  ['Knowledge base & service portal',1,1,1],
+  ['Asset management & CMDB',1,1,1],
+  ['Service catalog & change management',1,1,1],
+  ['SLA, groups & custom roles',1,1,1],
+  ['MFA & internationalization',1,1,1],
+  ['Custom fields & forms',0,1,1],
+  ['Advanced automations & runbooks',0,1,1],
+  ['Virtual Agent',0,1,1],
+  ['Enterprise Service Management (ESM)',0,1,1],
+  ['Network discovery',0,1,1],
+  ['Contract management & license compliance',0,1,1],
+  ['Scheduled reports & audit history',0,1,1],
+  ['Data masking',0,1,1],
+  ['API access',0,1,1],
+  ['AI-generated resolution summaries',0,1,1],
+  ['AI incident summaries & guided solutions',0,0,1],
+  ['Visual CMDB & dependency mapping',0,0,1],
+  ['Sandbox',0,0,1],
+  ['Virtual Agent Premier & Data Masking Premier',0,0,1]
+];
+
+function fmt(n){return Math.round(n).toLocaleString('en-US');}
+function val(id){var el=$id(id);return el?parseFloat(el.value)||0:0;}
+function bind(segId,key,attr){var seg=$id(segId);seg.querySelectorAll('button').forEach(function(b){b.addEventListener('click',function(){seg.querySelectorAll('button').forEach(function(x){x.classList.remove('active');});b.classList.add('active');state[key]=b.dataset[attr];calc();});});}
+
+function requiredPlan(){
+  if($id('i-need-prem').checked)return 'premier';
+  if($id('i-need-adv').checked)return 'advanced';
+  return 'essentials';
+}
+function renderModules(plan){
+  $id('th-ess').className=plan==='essentials'?'hit':'';
+  $id('th-adv').className=plan==='advanced'?'hit':'';
+  $id('th-prem').className=plan==='premier'?'hit':'';
+  $id('module-body').innerHTML=MODULES.map(function(m){
+    var cells=[m[1],m[2],m[3]].map(function(v,idx){
+      var planName=PLANS[idx];
+      return '<td class="'+(plan===planName?'hit':'')+'">'+(v?'<span class="yes">✓</span>':'<span class="no">—</span>')+'</td>';
+    }).join('');
+    return '<tr><td>'+m[0]+'</td>'+cells+'</tr>';
+  }).join('');
+}
+
+function calc(){
+  var tech=val('i-tech'), add=val('i-add'), headroom=val('i-headroom');
+  var requestors=val('i-requestors'), devices=val('i-devices'), nonnetwork=val('i-nonnetwork');
+  var total=Math.ceil((tech+add)*(1+headroom/100));
+
+  var required=requiredPlan();
+  var plan=state.plan==='auto'?required:state.plan;
+  var escalated=false;
+  if(PLANS.indexOf(plan)<PLANS.indexOf(required)){plan=required;escalated=true;}
+
+  $id('o-plan').textContent=LABEL[plan];
+  $id('o-badge').textContent=(state.plan==='auto'?'Auto-selected':'Selected')+' · annual billing';
+
+  $id('o-tech').innerHTML=fmt(total)+' <small>license'+(total===1?'':'s')+'</small>';
+  var bp=[fmt(tech)+' current'];
+  if(add>0)bp.push(fmt(add)+' additions');
+  if(headroom>0)bp.push('+'+headroom+'% headroom');
+  $id('o-tech-note').textContent=bp.join(' · ');
+
+  $id('o-requestors').textContent='Unlimited';
+  $id('o-requestors-note').textContent=fmt(requestors)+' employees can submit and track tickets without additional licenses';
+
+  $id('o-devices').innerHTML=fmt(devices)+' <small>device'+(devices===1?'':'s')+'</small>';
+  $id('o-devices-note').textContent='Asset add-on · priced on request'+(nonnetwork>0?' · plus '+fmt(nonnetwork)+' non-network assets (not limited)':'');
+
+  var rows=[
+    ['Service Desk — '+LABEL[plan],'Licensed technician',fmt(total)],
+    ['Requestors (all plans)','Unlimited portal users','Unlimited']
+  ];
+  if(devices>0)rows.push(['Asset Management add-on','Network-capable device',fmt(devices)]);
+  if(nonnetwork>0)rows.push(['Asset Management — non-network','Tracked asset','Not counted']);
+  $id('lic-body').innerHTML=rows.map(function(r){return '<tr><td>'+r[0]+'</td><td>'+r[1]+'</td><td>'+r[2]+'</td></tr>';}).join('');
+
+  var flags=[];
+  if(escalated)flags.push({t:'warn',m:'The selected plan cannot cover the required capabilities — escalated to '+LABEL[plan]+'.'});
+  else if(state.plan!=='auto'&&state.plan!==required)flags.push({t:'pos',m:LABEL[state.plan]+' covers the selected capability requirements.'});
+  if(headroom>20)flags.push({t:'warn',m:'Growth headroom is above 20% — confirm the added licenses are needed within the contract term.'});
+  if(devices>0)flags.push({t:'warn',m:'Asset Management is quoted separately. Network-capable devices count toward the asset limit even when IP addresses are not actively tracked.'});
+  if(requestors>0)flags.push({t:'pos',m:fmt(requestors)+' requestors are covered at no additional license cost on every plan.'});
+  $id('o-flags').innerHTML=flags.map(function(f){return '<div class="flag '+f.t+'">'+f.m+'</div>';}).join('');
+
+  renderModules(plan);
+}
+
+['i-tech','i-add','i-headroom','i-requestors','i-devices','i-nonnetwork'].forEach(function(id){var el=$id(id);el.addEventListener('input',calc);el.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();calc();}});});
+['i-need-adv','i-need-prem'].forEach(function(id){$id(id).addEventListener('change',calc);});
+bind('seg-plan','plan','p');
+calc();
+
+})();
+</script>
+
+<script>
 (function(){
   var btns=document.querySelectorAll('.tab-btn'),panels=document.querySelectorAll('.tab-panel');
   btns.forEach(function(b){b.addEventListener('click',function(){
@@ -1535,7 +1806,7 @@ calc();
 
 <script>
 (function(){
-var DICT={"Contact us":"Hubungi kami","Licensing inputs": "Input lisensi", "Monitoring scope (entities)": "Cakupan monitoring (entitas)", "Reference": "Referensi", "Licensing": "Lisensi", "Hardware sizing": "Sizing hardware", "Customer-side sizing": "Sizing sisi pelanggan", "How this is calculated": "Cara perhitungan", "Sources": "Sumber", "Contact": "Kontak", "1 · Minimum hardware": "1 · Hardware minimum", "2 · Recommended hardware": "2 · Hardware rekomendasi", "1 · Minimum": "1 · Minimum", "2 · Recommended": "2 · Rekomendasi", "Documented minimum collector spec": "Spesifikasi minimum collector sesuai dokumentasi", "Recommended spec + HA / redundancy": "Spesifikasi rekomendasi + HA / redundansi", "Quantity estimate · confirm in CPQ": "Estimasi kuantitas · konfirmasi di CPQ", "Per monitored DB instance · confirm in CPQ": "Per instance DB termonitor · konfirmasi di CPQ", "Planned additions": "Rencana penambahan", "Growth headroom %": "Headroom pertumbuhan %", "Module coverage by tier": "Cakupan modul per tier", "Published node tiers": "Tier node terpublikasi", "Published Premier node tiers": "Tier node Premier terpublikasi", "Self-Hosted infrastructure — Minimum vs Recommended": "Infrastruktur Self-Hosted — Minimum vs Rekomendasi", "Infrastructure — Minimum vs Recommended": "Infrastruktur — Minimum vs Rekomendasi", "Collectors & agents — Minimum vs Recommended": "Collector & agent — Minimum vs Rekomendasi", "Per-poller scalability limits (2026 guide)": "Batas skalabilitas per poller (panduan 2026)", "Entity weighting & units of measure": "Pembobotan entitas & satuan ukur", "Module license summary": "Ringkasan lisensi modul", "License summary": "Ringkasan lisensi", "License types": "Tipe lisensi", "DPA server & repository — Minimum vs Recommended": "Server DPA & repository — Minimum vs Rekomendasi", "DPA 2026.2 sizing brackets (per DPA server)": "Bracket sizing DPA 2026.2 (per server DPA)", "Recommended license tier": "Tier lisensi direkomendasikan", "Total required capacity": "Total kapasitas dibutuhkan", "Scale edition": "Edisi skala", "Polling engines required": "Polling engine dibutuhkan", "Additional web servers": "Web server tambahan", "Recommended Premier tier": "Tier Premier direkomendasikan", "Attached SaaS capacity": "Kapasitas SaaS terlampir", "Overage headroom": "Headroom overage", "Storage / WPM (included)": "Storage / WPM (termasuk)", "Network & Infrastructure entitlements": "Entitlement Network & Infrastructure", "Applications & Databases": "Aplikasi & Database", "Logs": "Log", "Total DPA licenses required": "Total lisensi DPA dibutuhkan", "DBSH licenses": "Lisensi DBSH", "DBSHDS licenses": "Lisensi DBSHDS", "DPA servers required": "Server DPA dibutuhkan", "Deployment bracket": "Bracket deployment", "Network & Infrastructure Observability": "Observabilitas Network & Infrastructure", "Self-Hosted (OSH) polling workload": "Beban kerja polling Self-Hosted (OSH)", "SaaS monitoring scope": "Cakupan monitoring SaaS", "Included components (Tier 2 · no node impact in 2026.2)": "Komponen termasuk (Tier 2 · tanpa dampak node di 2026.2)", "Server sizing workload": "Beban kerja sizing server", "Network devices": "Perangkat jaringan", "Wireless APs": "Wireless AP", "Hosts / servers": "Host / server", "Hypervisors / virtual hosts": "Hypervisor / host virtual", "Standalone VMs": "VM standalone", "Cloud services (non-host)": "Layanan cloud (non-host)", "Kubernetes containers": "Container Kubernetes", "Storage arrays": "Storage array", "NetFlow flows/sec (optional)": "NetFlow flow/detik (opsional)", "APM services": "Layanan APM", "Database instances": "Instance database", "Endpoints / URLs": "Endpoint / URL", "Protocols per endpoint": "Protokol per endpoint", "Public probe locations": "Lokasi probe publik", "Use private probes": "Gunakan private probe", "Number of private probes": "Jumlah private probe", "Synthetic transactions": "Transaksi sintetis", "RUM pageviews / month": "Pageview RUM / bulan", "Log ingest (GB / day)": "Ingest log (GB / hari)", "License tier": "Tier lisensi", "Licensed nodes (1 each)": "Node berlisensi (1 per node)", "Primary polling protocol": "Protokol polling utama", "Avg monitored elements per node": "Rata-rata elemen termonitor per node", "SAM component monitors": "Component monitor SAM", "SolarWinds agents": "Agent SolarWinds", "NetFlow flows/sec (on-prem)": "NetFlow flow/detik (on-prem)", "Concurrent web users": "Pengguna web bersamaan", "Full-license nodes (1 each)": "Node lisensi penuh (1 per node)", "Cloud VMs / small cloud resources": "VM cloud / resource cloud kecil", "Containers / K8s": "Container / K8s", "Thin APs": "Thin AP", "Edition": "Edisi", "Storage arrays (SRM)": "Storage array (SRM)", "WPM transactions": "Transaksi WPM", "Incident Response users": "Pengguna Incident Response", "SaaS network devices (collector)": "Perangkat jaringan SaaS (collector)", "SaaS servers — Agent": "Server SaaS — Agent", "SaaS servers — agentless": "Server SaaS — agentless", "SaaS flows/sec": "Flow SaaS/detik", "Self-hosted DB instances (DBSH)": "Instance DB self-hosted (DBSH)", "DBaaS instances (DBSHDS)": "Instance DBaaS (DBSHDS)", "VMware registered in DPA?": "VMware terdaftar di DPA?", "DPA Central concurrent users": "Pengguna bersamaan DPA Central", "Routers, switches, firewalls (1:1).": "Router, switch, firewall (1:1).", "10 share 1 entitlement.": "10 berbagi 1 entitlement.", "Agent or collector (1:1).": "Agent atau collector (1:1).", "VMware/Hyper-V/Nutanix host (1:1).": "Host VMware/Hyper-V/Nutanix (1:1).", "3 share 1 entitlement.": "3 berbagi 1 entitlement.", "AWS/Azure services, 3:1.": "Layanan AWS/Azure, 3:1.", "Drives dedicated flow collector sizing (≤40,000 FPS each).": "Menentukan sizing flow collector khusus (≤40.000 FPS per collector).", "Per active service, any # instances.": "Per layanan aktif, berapa pun jumlah instance.", "Per active instance.": "Per instance aktif.", "Distinct targets to monitor.": "Target berbeda yang dimonitor.", "e.g. HTTP(S), TCP, ICMP, DNS.": "mis. HTTP(S), TCP, ICMP, DNS.", "SolarWinds cloud test locations.": "Lokasi uji cloud SolarWinds.", "Agent-based probes hosted inside the customer network for internal endpoints.": "Probe berbasis agent di dalam jaringan pelanggan untuk endpoint internal.", "Added to location count. Each probe is a customer-hosted test location.": "Ditambahkan ke jumlah lokasi. Tiap probe adalah lokasi uji yang di-host pelanggan.", "Scripted multi-step journeys. 2 / bundle (5 checks each).": "Perjalanan multi-langkah terskrip. 2 / bundle (5 check per transaksi).", "Bundles of 100,000 pageviews.": "Bundle per 100.000 pageview.", "Priced per GB/day; org ceiling ≈ 200 GB/hr.": "Dihitung per GB/hari; plafon organisasi ≈ 200 GB/jam.", "Essentials: NPM, SAM, LA, IPAM, UDT, VNQM & Cloud. Advanced adds NTA, NCM, VMAN, SCM, anomaly-based alerting & the security vulnerability dashboard.": "Essentials: NPM, SAM, LA, IPAM, UDT, VNQM & Cloud. Advanced menambah NTA, NCM, VMAN, SCM, anomaly-based alerting & dashboard kerentanan keamanan.", "Servers, network devices, wireless controllers, autonomous APs, and any node with monitoring beyond ICMP status. Exclude ICMP-only status nodes (free).": "Server, perangkat jaringan, wireless controller, AP autonomous, dan node apa pun dengan monitoring di luar status ICMP. Tidak termasuk node status ICMP-only (gratis).", "Standard scales up to 1,500 nodes. Enterprise is required beyond 1,500 nodes and whenever Additional Polling Engines (APEs) are needed.": "Standard sampai 1.500 node. Enterprise wajib di atas 1.500 node dan saat Additional Polling Engine (APE) dibutuhkan.", "Sets per-poller element capacity: SNMPv2 100k · SNMPv3 72k · WMI/WinRM 20k (max 2,000 nodes), at 16 cores.": "Menentukan kapasitas elemen per poller: SNMPv2 100k · SNMPv3 72k · WMI/WinRM 20k (maks 2.000 node), pada 16 core.", "Interfaces, volumes, apps, component monitors per node. Typical 8–12.": "Interface, volume, aplikasi, component monitor per node. Umumnya 8–12.", "40k / APE.": "40k / APE.", "1,000 / poller.": "1.000 / poller.", "50k FPS / poller. Requires Advanced (NTA).": "50k FPS / poller. Butuh Advanced (NTA).", "25–50 / web server.": "25–50 / web server.", "50k FPS / poller.": "50k FPS / poller.", "Servers, network devices, wireless controllers, autonomous APs, paid ICMP nodes. Exclude ICMP-only status nodes (free).": "Server, perangkat jaringan, wireless controller, AP autonomous, node ICMP berbayar. Tidak termasuk node status ICMP-only (gratis).", "3 share 1 node.": "3 berbagi 1 node.", "10 share 1 node.": "10 berbagi 1 node.", "Agentless via Network Collector — up to 7,000 standard devices each.": "Agentless via Network Collector — hingga 7.000 perangkat standar per collector.", "Per-host agent.": "Agent per host.", "Via collector.": "Lewat collector.", "≤40,000 flows/sec per collector.": "≤40.000 flow/detik per collector.", "SQL Server, Oracle, MySQL, MariaDB, PostgreSQL, Db2, SAP ASE/HANA — incl. RDS, Aurora, Cloud SQL, Azure MI. 1 license each.": "SQL Server, Oracle, MySQL, MariaDB, PostgreSQL, Db2, SAP ASE/HANA — termasuk RDS, Aurora, Cloud SQL, Azure MI. 1 lisensi per instance.", "Azure SQL Database and other supported DBaaS targets. 1 license each.": "Azure SQL Database dan target DBaaS lain yang didukung. 1 lisensi per instance.", "Registering VMware raises DPA server CPU & RAM needs by ~50%.": "Mendaftarkan VMware menaikkan kebutuhan CPU & RAM server DPA ~50%.", "Only relevant with multiple DPA servers. DPA Central links servers into one view; co-locate it on a monitoring DPA server.": "Hanya relevan saat server DPA lebih dari satu. DPA Central menyatukan server dalam satu tampilan; tempatkan di salah satu server DPA monitoring.", "Size a full-stack SolarWinds Observability SaaS subscription across all modules — Network, Infrastructure, Application (APM), Database, Digital Experience (Synthetics & RUM), and Logs — using the à-la-carte, entity/consumption-based model. This calculator returns licensable quantities only (no pricing). Because the SaaS backend is hosted by SolarWinds, the only customer-side \"hardware\" to size is the collectors and agents that ship telemetry to the cloud.": "Hitung kebutuhan subscription SolarWinds Observability SaaS full-stack di semua modul — Network, Infrastructure, Application (APM), Database, Digital Experience (Synthetics & RUM), dan Logs — dengan model à-la-carte berbasis entitas/konsumsi. Kalkulator ini hanya menghasilkan kuantitas lisensi (tanpa harga). Karena backend SaaS di-host SolarWinds, satu-satunya \"hardware\" sisi pelanggan yang perlu di-sizing adalah collector dan agent pengirim telemetri ke cloud.", "Size the SolarWinds Observability Self-Hosted (OSH) Essentials or Advanced tier from monitored node capacity, then derive minimum and recommended self-hosted hardware. Both tiers use simple node-based licensing and scale through Standard and Enterprise editions. Poller sizing follows the 2026 scalability guide — per-poller capacity is protocol-dependent, not a flat element count.": "Hitung tier Essentials atau Advanced SolarWinds Observability Self-Hosted (OSH) dari kapasitas node termonitor, lalu turunkan hardware self-hosted minimum dan rekomendasi. Kedua tier memakai lisensi berbasis node sederhana dan menskala lewat edisi Standard dan Enterprise. Sizing poller mengikuti panduan skalabilitas 2026 — kapasitas per poller bergantung protokol, bukan jumlah elemen flat.", "Size the SolarWinds Observability Self-Hosted (OSH) Premier tier from monitored capacity, then derive minimum and recommended hardware for the self-hosted platform and the SaaS side (network collectors and per-host agents). Poller sizing follows the 2026 scalability guide — per-poller capacity is protocol-dependent, not a flat element count.": "Hitung tier Premier SolarWinds Observability Self-Hosted (OSH) dari kapasitas termonitor, lalu turunkan hardware minimum dan rekomendasi untuk platform self-hosted dan sisi SaaS (network collector dan agent per host). Sizing poller mengikuti panduan skalabilitas 2026 — kapasitas per poller bergantung protokol, bukan jumlah elemen flat.", "Size a SolarWinds DPA deployment from the number of monitored database instances. DPA is licensed per monitored database instance — current subscription licenses are DBSH (Database Self-Hosted, any edition of any supported database, VM metrics included) and DBSHDS (Database Self-Hosted DBaaS). Server and repository hardware follow the DPA 2026.2 system requirements, bracketed by instances per DPA server (max 250 each).": "Hitung deployment SolarWinds DPA dari jumlah instance database termonitor. DPA dilisensikan per instance database termonitor — lisensi subscription saat ini adalah DBSH (Database Self-Hosted, semua edisi semua database yang didukung, metrik VM termasuk) dan DBSHDS (Database Self-Hosted DBaaS). Hardware server dan repository mengikuti system requirements DPA 2026.2, dibagi per bracket instance per server DPA (maks 250 per server).", "Reach out to the Westcon team for licensing validation, CPQ quotes, and sizing reviews.": "Hubungi tim Westcon untuk validasi lisensi, penawaran CPQ, dan review sizing.", "How SaaS licensing counts things: each module is licensed separately by the number of active entities (or consumption) monitored in the previous calendar day. Smaller resources share an entitlement — VMs 3:1, cloud services 3:1, containers & wireless APs 10:1. ICMP-only status nodes are included free.": "Cara lisensi SaaS menghitung: tiap modul dilisensikan terpisah berdasarkan jumlah entitas aktif (atau konsumsi) yang termonitor pada hari kalender sebelumnya. Resource kecil berbagi entitlement — VM 3:1, layanan cloud 3:1, container & wireless AP 10:1. Node status ICMP-only gratis.", "Uptime checks = endpoints × locations × protocols. e.g. 20 endpoints × 2 locations × 1 protocol = 40 uptime checks. Each private probe you deploy counts as an additional location, so private probes are added to the location count before multiplying.": "Uptime check = endpoint × lokasi × protokol. mis. 20 endpoint × 2 lokasi × 1 protokol = 40 uptime check. Tiap private probe yang di-deploy dihitung sebagai lokasi tambahan, jadi private probe ditambahkan ke jumlah lokasi sebelum dikalikan.", "How licensing counts nodes: most monitored devices consume one node license each. ICMP-only status nodes (ping availability) are free, and cloud/hypervisor-discovered VMs are free until you assign additional monitoring — then each counts as one full node. Value-based fractional licensing is a Premier-only feature and does not apply to Essentials or Advanced.": "Cara lisensi menghitung node: sebagian besar perangkat termonitor memakai satu lisensi node. Node status ICMP-only (ping availability) gratis, dan VM hasil discovery cloud/hypervisor gratis sampai diberi monitoring tambahan — setelah itu dihitung satu node penuh. Lisensi fraksional berbasis nilai hanya fitur Premier dan tidak berlaku untuk Essentials atau Advanced.", "How licensing counts things: most devices use 1 full license each. Smaller resources share a license — cloud VMs 3-to-1, containers & thin wireless APs 10-to-1. Enter each type in its own field; sharing is applied automatically.": "Cara lisensi menghitung: sebagian besar perangkat memakai 1 lisensi penuh. Resource kecil berbagi lisensi — VM cloud 3-banding-1, container & thin wireless AP 10-banding-1. Isi tiap tipe di kolomnya masing-masing; pembagian dihitung otomatis.", "How DPA licensing counts: one license per monitored database instance. DBSH covers any edition of SQL Server, Oracle, MySQL, MariaDB, PostgreSQL, Db2, SAP ASE & HANA (cloud-hosted equivalents included) and bundles VM metrics — no VM Option needed. DBSHDS covers DBaaS targets such as Azure SQL Database. Licenses float: register more instances than licenses and assign them on the allocation page.": "Cara lisensi DPA menghitung: satu lisensi per instance database termonitor. DBSH mencakup semua edisi SQL Server, Oracle, MySQL, MariaDB, PostgreSQL, Db2, SAP ASE & HANA (termasuk versi cloud) dan sudah termasuk metrik VM — tanpa perlu VM Option. DBSHDS mencakup target DBaaS seperti Azure SQL Database. Lisensi bersifat floating: daftarkan lebih banyak instance dari lisensi dan alokasikan di halaman allocation."};
+var DICT={"Contact us":"Hubungi kami","Licensing inputs":"Input lisensi","Monitoring scope (entities)":"Cakupan monitoring (entitas)","Reference":"Referensi","Licensing":"Lisensi","Hardware sizing":"Sizing hardware","Customer-side sizing":"Sizing sisi pelanggan","How this is calculated":"Cara perhitungan","Sources":"Sumber","Contact":"Kontak","1 · Minimum hardware":"1 · Hardware minimum","2 · Recommended hardware":"2 · Hardware rekomendasi","1 · Minimum":"1 · Minimum","2 · Recommended":"2 · Rekomendasi","Documented minimum collector spec":"Spesifikasi minimum collector sesuai dokumentasi","Recommended spec + HA / redundancy":"Spesifikasi rekomendasi + HA / redundansi","Quantity estimate · confirm in CPQ":"Estimasi kuantitas · konfirmasi di CPQ","Per monitored DB instance · confirm in CPQ":"Per instance DB termonitor · konfirmasi di CPQ","Planned additions":"Rencana penambahan","Growth headroom %":"Headroom pertumbuhan %","Module coverage by tier":"Cakupan modul per tier","Published node tiers":"Tier node terpublikasi","Published Premier node tiers":"Tier node Premier terpublikasi","Self-Hosted infrastructure — Minimum vs Recommended":"Infrastruktur Self-Hosted — Minimum vs Rekomendasi","Infrastructure — Minimum vs Recommended":"Infrastruktur — Minimum vs Rekomendasi","Collectors & agents — Minimum vs Recommended":"Collector & agent — Minimum vs Rekomendasi","Per-poller scalability limits (2026 guide)":"Batas skalabilitas per poller (panduan 2026)","Entity weighting & units of measure":"Pembobotan entitas & satuan ukur","Module license summary":"Ringkasan lisensi modul","License summary":"Ringkasan lisensi","License types":"Tipe lisensi","DPA server & repository — Minimum vs Recommended":"Server DPA & repository — Minimum vs Rekomendasi","DPA 2026.2 sizing brackets (per DPA server)":"Bracket sizing DPA 2026.2 (per server DPA)","Recommended license tier":"Tier lisensi direkomendasikan","Total required capacity":"Total kapasitas dibutuhkan","Scale edition":"Edisi skala","Polling engines required":"Polling engine dibutuhkan","Additional web servers":"Web server tambahan","Recommended Premier tier":"Tier Premier direkomendasikan","Attached SaaS capacity":"Kapasitas SaaS terlampir","Overage headroom":"Headroom overage","Storage / WPM (included)":"Storage / WPM (termasuk)","Network & Infrastructure entitlements":"Entitlement Network & Infrastructure","Applications & Databases":"Aplikasi & Database","Logs":"Log","Total DPA licenses required":"Total lisensi DPA dibutuhkan","DBSH licenses":"Lisensi DBSH","DBSHDS licenses":"Lisensi DBSHDS","DPA servers required":"Server DPA dibutuhkan","Deployment bracket":"Bracket deployment","Network & Infrastructure Observability":"Observabilitas Network & Infrastructure","Self-Hosted (OSH) polling workload":"Beban kerja polling Self-Hosted (OSH)","SaaS monitoring scope":"Cakupan monitoring SaaS","Included components (Tier 2 · no node impact in 2026.2)":"Komponen termasuk (Tier 2 · tanpa dampak node di 2026.2)","Server sizing workload":"Beban kerja sizing server","Network devices":"Perangkat jaringan","Wireless APs":"Wireless AP","Hosts / servers":"Host / server","Hypervisors / virtual hosts":"Hypervisor / host virtual","Standalone VMs":"VM standalone","Cloud services (non-host)":"Layanan cloud (non-host)","Kubernetes containers":"Container Kubernetes","Storage arrays":"Storage array","NetFlow flows/sec (optional)":"NetFlow flow/detik (opsional)","APM services":"Layanan APM","Database instances":"Instance database","Endpoints / URLs":"Endpoint / URL","Protocols per endpoint":"Protokol per endpoint","Public probe locations":"Lokasi probe publik","Use private probes":"Gunakan private probe","Number of private probes":"Jumlah private probe","Synthetic transactions":"Transaksi sintetis","RUM pageviews / month":"Pageview RUM / bulan","Log ingest (GB / day)":"Ingest log (GB / hari)","License tier":"Tier lisensi","Licensed nodes (1 each)":"Node berlisensi (1 per node)","Primary polling protocol":"Protokol polling utama","Avg monitored elements per node":"Rata-rata elemen termonitor per node","SAM component monitors":"Component monitor SAM","SolarWinds agents":"Agent SolarWinds","NetFlow flows/sec (on-prem)":"NetFlow flow/detik (on-prem)","Concurrent web users":"Pengguna web bersamaan","Full-license nodes (1 each)":"Node lisensi penuh (1 per node)","Cloud VMs / small cloud resources":"VM cloud / resource cloud kecil","Containers / K8s":"Container / K8s","Thin APs":"Thin AP","Edition":"Edisi","Storage arrays (SRM)":"Storage array (SRM)","WPM transactions":"Transaksi WPM","Incident Response users":"Pengguna Incident Response","SaaS network devices (collector)":"Perangkat jaringan SaaS (collector)","SaaS servers — Agent":"Server SaaS — Agent","SaaS servers — agentless":"Server SaaS — agentless","SaaS flows/sec":"Flow SaaS/detik","Self-hosted DB instances (DBSH)":"Instance DB self-hosted (DBSH)","DBaaS instances (DBSHDS)":"Instance DBaaS (DBSHDS)","VMware registered in DPA?":"VMware terdaftar di DPA?","DPA Central concurrent users":"Pengguna bersamaan DPA Central","Routers, switches, firewalls (1:1).":"Router, switch, firewall (1:1).","10 share 1 entitlement.":"10 berbagi 1 entitlement.","Agent or collector (1:1).":"Agent atau collector (1:1).","VMware/Hyper-V/Nutanix host (1:1).":"Host VMware/Hyper-V/Nutanix (1:1).","3 share 1 entitlement.":"3 berbagi 1 entitlement.","AWS/Azure services, 3:1.":"Layanan AWS/Azure, 3:1.","Drives dedicated flow collector sizing (≤40,000 FPS each).":"Menentukan sizing flow collector khusus (≤40.000 FPS per collector).","Per active service, any # instances.":"Per layanan aktif, berapa pun jumlah instance.","Per active instance.":"Per instance aktif.","Distinct targets to monitor.":"Target berbeda yang dimonitor.","e.g. HTTP(S), TCP, ICMP, DNS.":"mis. HTTP(S), TCP, ICMP, DNS.","SolarWinds cloud test locations.":"Lokasi uji cloud SolarWinds.","Agent-based probes hosted inside the customer network for internal endpoints.":"Probe berbasis agent di dalam jaringan pelanggan untuk endpoint internal.","Added to location count. Each probe is a customer-hosted test location.":"Ditambahkan ke jumlah lokasi. Tiap probe adalah lokasi uji yang di-host pelanggan.","Scripted multi-step journeys. 2 / bundle (5 checks each).":"Perjalanan multi-langkah terskrip. 2 / bundle (5 check per transaksi).","Bundles of 100,000 pageviews.":"Bundle per 100.000 pageview.","Priced per GB/day; org ceiling ≈ 200 GB/hr.":"Dihitung per GB/hari; plafon organisasi ≈ 200 GB/jam.","Essentials: NPM, SAM, LA, IPAM, UDT, VNQM & Cloud. Advanced adds NTA, NCM, VMAN, SCM, anomaly-based alerting & the security vulnerability dashboard.":"Essentials: NPM, SAM, LA, IPAM, UDT, VNQM & Cloud. Advanced menambah NTA, NCM, VMAN, SCM, anomaly-based alerting & dashboard kerentanan keamanan.","Servers, network devices, wireless controllers, autonomous APs, and any node with monitoring beyond ICMP status. Exclude ICMP-only status nodes (free).":"Server, perangkat jaringan, wireless controller, AP autonomous, dan node apa pun dengan monitoring di luar status ICMP. Tidak termasuk node status ICMP-only (gratis).","Standard scales up to 1,500 nodes. Enterprise is required beyond 1,500 nodes and whenever Additional Polling Engines (APEs) are needed.":"Standard sampai 1.500 node. Enterprise wajib di atas 1.500 node dan saat Additional Polling Engine (APE) dibutuhkan.","Sets per-poller element capacity: SNMPv2 100k · SNMPv3 72k · WMI/WinRM 20k (max 2,000 nodes), at 16 cores.":"Menentukan kapasitas elemen per poller: SNMPv2 100k · SNMPv3 72k · WMI/WinRM 20k (maks 2.000 node), pada 16 core.","Interfaces, volumes, apps, component monitors per node. Typical 8–12.":"Interface, volume, aplikasi, component monitor per node. Umumnya 8–12.","40k / APE.":"40k / APE.","1,000 / poller.":"1.000 / poller.","50k FPS / poller. Requires Advanced (NTA).":"50k FPS / poller. Butuh Advanced (NTA).","25–50 / web server.":"25–50 / web server.","50k FPS / poller.":"50k FPS / poller.","Servers, network devices, wireless controllers, autonomous APs, paid ICMP nodes. Exclude ICMP-only status nodes (free).":"Server, perangkat jaringan, wireless controller, AP autonomous, node ICMP berbayar. Tidak termasuk node status ICMP-only (gratis).","3 share 1 node.":"3 berbagi 1 node.","10 share 1 node.":"10 berbagi 1 node.","Agentless via Network Collector — up to 7,000 standard devices each.":"Agentless via Network Collector — hingga 7.000 perangkat standar per collector.","Per-host agent.":"Agent per host.","Via collector.":"Lewat collector.","≤40,000 flows/sec per collector.":"≤40.000 flow/detik per collector.","SQL Server, Oracle, MySQL, MariaDB, PostgreSQL, Db2, SAP ASE/HANA — incl. RDS, Aurora, Cloud SQL, Azure MI. 1 license each.":"SQL Server, Oracle, MySQL, MariaDB, PostgreSQL, Db2, SAP ASE/HANA — termasuk RDS, Aurora, Cloud SQL, Azure MI. 1 lisensi per instance.","Azure SQL Database and other supported DBaaS targets. 1 license each.":"Azure SQL Database dan target DBaaS lain yang didukung. 1 lisensi per instance.","Registering VMware raises DPA server CPU & RAM needs by ~50%.":"Mendaftarkan VMware menaikkan kebutuhan CPU & RAM server DPA ~50%.","Only relevant with multiple DPA servers. DPA Central links servers into one view; co-locate it on a monitoring DPA server.":"Hanya relevan saat server DPA lebih dari satu. DPA Central menyatukan server dalam satu tampilan; tempatkan di salah satu server DPA monitoring.","Size a full-stack SolarWinds Observability SaaS subscription across all modules — Network, Infrastructure, Application (APM), Database, Digital Experience (Synthetics & RUM), and Logs — using the à-la-carte, entity/consumption-based model. This calculator returns licensable quantities only (no pricing). Because the SaaS backend is hosted by SolarWinds, the only customer-side \"hardware\" to size is the collectors and agents that ship telemetry to the cloud.":"Hitung kebutuhan subscription SolarWinds Observability SaaS full-stack di semua modul — Network, Infrastructure, Application (APM), Database, Digital Experience (Synthetics & RUM), dan Logs — dengan model à-la-carte berbasis entitas/konsumsi. Kalkulator ini hanya menghasilkan kuantitas lisensi (tanpa harga). Karena backend SaaS di-host SolarWinds, satu-satunya \"hardware\" sisi pelanggan yang perlu di-sizing adalah collector dan agent pengirim telemetri ke cloud.","Size the SolarWinds Observability Self-Hosted (OSH) Essentials or Advanced tier from monitored node capacity, then derive minimum and recommended self-hosted hardware. Both tiers use simple node-based licensing and scale through Standard and Enterprise editions. Poller sizing follows the 2026 scalability guide — per-poller capacity is protocol-dependent, not a flat element count.":"Hitung tier Essentials atau Advanced SolarWinds Observability Self-Hosted (OSH) dari kapasitas node termonitor, lalu turunkan hardware self-hosted minimum dan rekomendasi. Kedua tier memakai lisensi berbasis node sederhana dan menskala lewat edisi Standard dan Enterprise. Sizing poller mengikuti panduan skalabilitas 2026 — kapasitas per poller bergantung protokol, bukan jumlah elemen flat.","Size the SolarWinds Observability Self-Hosted (OSH) Premier tier from monitored capacity, then derive minimum and recommended hardware for the self-hosted platform and the SaaS side (network collectors and per-host agents). Poller sizing follows the 2026 scalability guide — per-poller capacity is protocol-dependent, not a flat element count.":"Hitung tier Premier SolarWinds Observability Self-Hosted (OSH) dari kapasitas termonitor, lalu turunkan hardware minimum dan rekomendasi untuk platform self-hosted dan sisi SaaS (network collector dan agent per host). Sizing poller mengikuti panduan skalabilitas 2026 — kapasitas per poller bergantung protokol, bukan jumlah elemen flat.","Size a SolarWinds DPA deployment from the number of monitored database instances. DPA is licensed per monitored database instance — current subscription licenses are DBSH (Database Self-Hosted, any edition of any supported database, VM metrics included) and DBSHDS (Database Self-Hosted DBaaS). Server and repository hardware follow the DPA 2026.2 system requirements, bracketed by instances per DPA server (max 250 each).":"Hitung deployment SolarWinds DPA dari jumlah instance database termonitor. DPA dilisensikan per instance database termonitor — lisensi subscription saat ini adalah DBSH (Database Self-Hosted, semua edisi semua database yang didukung, metrik VM termasuk) dan DBSHDS (Database Self-Hosted DBaaS). Hardware server dan repository mengikuti system requirements DPA 2026.2, dibagi per bracket instance per server DPA (maks 250 per server).","Reach out to the Westcon team for licensing validation, CPQ quotes, and sizing reviews.":"Hubungi tim Westcon untuk validasi lisensi, penawaran CPQ, dan review sizing.","How SaaS licensing counts things: each module is licensed separately by the number of active entities (or consumption) monitored in the previous calendar day. Smaller resources share an entitlement — VMs 3:1, cloud services 3:1, containers & wireless APs 10:1. ICMP-only status nodes are included free.":"Cara lisensi SaaS menghitung: tiap modul dilisensikan terpisah berdasarkan jumlah entitas aktif (atau konsumsi) yang termonitor pada hari kalender sebelumnya. Resource kecil berbagi entitlement — VM 3:1, layanan cloud 3:1, container & wireless AP 10:1. Node status ICMP-only gratis.","Uptime checks = endpoints × locations × protocols. e.g. 20 endpoints × 2 locations × 1 protocol = 40 uptime checks. Each private probe you deploy counts as an additional location, so private probes are added to the location count before multiplying.":"Uptime check = endpoint × lokasi × protokol. mis. 20 endpoint × 2 lokasi × 1 protokol = 40 uptime check. Tiap private probe yang di-deploy dihitung sebagai lokasi tambahan, jadi private probe ditambahkan ke jumlah lokasi sebelum dikalikan.","How licensing counts nodes: most monitored devices consume one node license each. ICMP-only status nodes (ping availability) are free, and cloud/hypervisor-discovered VMs are free until you assign additional monitoring — then each counts as one full node. Value-based fractional licensing is a Premier-only feature and does not apply to Essentials or Advanced.":"Cara lisensi menghitung node: sebagian besar perangkat termonitor memakai satu lisensi node. Node status ICMP-only (ping availability) gratis, dan VM hasil discovery cloud/hypervisor gratis sampai diberi monitoring tambahan — setelah itu dihitung satu node penuh. Lisensi fraksional berbasis nilai hanya fitur Premier dan tidak berlaku untuk Essentials atau Advanced.","How licensing counts things: most devices use 1 full license each. Smaller resources share a license — cloud VMs 3-to-1, containers & thin wireless APs 10-to-1. Enter each type in its own field; sharing is applied automatically.":"Cara lisensi menghitung: sebagian besar perangkat memakai 1 lisensi penuh. Resource kecil berbagi lisensi — VM cloud 3-banding-1, container & thin wireless AP 10-banding-1. Isi tiap tipe di kolomnya masing-masing; pembagian dihitung otomatis.","How DPA licensing counts: one license per monitored database instance. DBSH covers any edition of SQL Server, Oracle, MySQL, MariaDB, PostgreSQL, Db2, SAP ASE & HANA (cloud-hosted equivalents included) and bundles VM metrics — no VM Option needed. DBSHDS covers DBaaS targets such as Azure SQL Database. Licenses float: register more instances than licenses and assign them on the allocation page.":"Cara lisensi DPA menghitung: satu lisensi per instance database termonitor. DBSH mencakup semua edisi SQL Server, Oracle, MySQL, MariaDB, PostgreSQL, Db2, SAP ASE & HANA (termasuk versi cloud) dan sudah termasuk metrik VM — tanpa perlu VM Option. DBSHDS mencakup target DBaaS seperti Azure SQL Database. Lisensi bersifat floating: daftarkan lebih banyak instance dari lisensi dan alokasikan di halaman allocation.","Size a SolarWinds Service Desk subscription from the number of technicians who manage and resolve work. Service Desk is licensed per technician, per month, billed annually — requestors (employees who submit and track tickets) are unlimited and free on every plan. Choose Essentials, Advanced or Premier, add growth headroom, and quantify the Asset Management device scope.":"Size langganan SolarWinds Service Desk dari jumlah teknisi yang mengelola dan menyelesaikan pekerjaan. Service Desk dilisensikan per teknisi, per bulan, ditagih tahunan — requestor (karyawan yang mengirim dan melacak tiket) tidak terbatas dan gratis di semua paket. Pilih Essentials, Advanced atau Premier, tambahkan headroom pertumbuhan, dan ukur cakupan perangkat Manajemen Aset.","How Service Desk licensing counts: only technicians need a paid license — one per technician, regardless of how many requestors use the service portal. Plans are cumulative: Advanced adds automation, ESM, network discovery and API access; Premier adds AI incident guidance, visual CMDB and a sandbox. Asset Management is an add-on quoted separately, driven by network-capable devices.":"Cara lisensi Service Desk menghitung: hanya teknisi yang membutuhkan lisensi berbayar — satu per teknisi, berapa pun jumlah requestor yang memakai service portal. Paket bersifat kumulatif: Advanced menambah otomasi, ESM, network discovery dan akses API; Premier menambah panduan insiden AI, CMDB visual dan sandbox. Manajemen Aset adalah add-on yang dikutip terpisah, berdasarkan perangkat berkemampuan jaringan.","Plan":"Paket","Capability requirements":"Kebutuhan kapabilitas","Technician scope":"Cakupan teknisi","Licensed technicians":"Teknisi berlisensi","Users who manage incidents, requests, changes, assets or workflows.":"Pengguna yang mengelola insiden, request, perubahan, aset atau alur kerja.","New technicians expected during the term.":"Teknisi baru yang diperkirakan selama masa kontrak.","Buffer for team growth and role changes. Applied before rounding up.":"Buffer untuk pertumbuhan tim dan perubahan peran. Diterapkan sebelum pembulatan ke atas.","Portal & assets":"Portal & aset","Employees / requestors":"Karyawan / requestor","Unlimited on every plan — no license required.":"Tidak terbatas di semua paket — tanpa lisensi.","Network-capable devices":"Perangkat berkemampuan jaringan","Computers, servers, mobile devices, VMs & network gear tracked in Asset Management / CMDB.":"Komputer, server, perangkat mobile, VM & perangkat jaringan yang dilacak di Manajemen Aset / CMDB.","Non-network assets (optional)":"Aset non-jaringan (opsional)","Furniture, office equipment or supplies. Tracked in the CMDB but do not count toward the network-capable device limit.":"Furnitur, peralatan kantor atau persediaan. Dilacak di CMDB tetapi tidak dihitung terhadap batas perangkat berkemampuan jaringan.","Auto recommends the smallest plan covering the capability requirements below. Manual selections are escalated if they cannot cover them.":"Auto merekomendasikan paket terkecil yang mencakup kebutuhan kapabilitas di bawah. Pilihan manual akan dinaikkan jika tidak dapat mencakupnya.","Advanced ITSM capabilities":"Kapabilitas ITSM Advanced","Advanced automations, runbooks, Virtual Agent, ESM, network discovery, contract management, audit history, data masking and API access.":"Otomasi lanjutan, runbook, Virtual Agent, ESM, network discovery, manajemen kontrak, audit history, data masking dan akses API.","Premier AI & visual CMDB":"AI Premier & CMDB visual","AI incident summaries & guided solutions, AI-generated responses, visual CMDB / dependency mapping, sandbox and Premier Virtual Agent.":"Ringkasan insiden AI & solusi terpandu, respons buatan AI, CMDB visual / pemetaan dependensi, sandbox dan Virtual Agent Premier.","Recommended plan":"Paket direkomendasikan","Technician licenses required":"Lisensi teknisi dibutuhkan","Requestors":"Requestor","Managed network devices":"Perangkat jaringan terkelola","Plan & license summary":"Ringkasan paket & lisensi","Plan comparison":"Perbandingan paket","Included in every plan":"Termasuk di setiap paket"};
 var SEL='h1,h2,h3,.sub,.panel-title,.field-label,.field-hint,.sub-head,.explainer,.badge,.cap,summary,.check span,.section-tag';
 function norm(t){return t.replace(/\s+/g,' ').trim();}
 function apply(lang){
