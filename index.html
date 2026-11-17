@@ -179,6 +179,19 @@ tr.total td{font-weight:600;border-top:2px solid var(--artifact-border-dark);bac
   .tab-btn{padding:8px 11px;font-size:12.5px}
   .lang-btn{padding:8px 10px;font-size:12px}
 }
+@media(max-width:820px){
+  .tab-bar{flex-wrap:nowrap;align-items:center;gap:8px}
+  .brand{min-width:0;flex:1 1 auto;padding-right:6px}
+  .brand-logo{height:26px}
+  .brand-text{min-width:0}
+  .brand-title{font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .nav-actions{margin-left:0;flex-shrink:0;gap:6px}
+  .product-menu{margin-right:0}
+  .product-btn{padding:7px 10px;font-size:12.5px}
+  .product-list{min-width:min(300px,88vw)}
+  .lang-seg{margin-left:0;padding-left:0;border-left:0;gap:4px}
+  .lang-btn{padding:7px 8px;font-size:12px}
+}
 @media print{
   .tab-bar{display:none!important}.tab-panel{display:none!important}.tab-panel.active{display:block!important}
   .table-scroll{overflow:visible!important}
