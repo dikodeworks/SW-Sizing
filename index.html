@@ -114,7 +114,9 @@ summary{cursor:pointer;font-weight:500;font-size:14px}
 tr.total td{font-weight:600;border-top:2px solid var(--artifact-border-dark);background:var(--artifact-background-light)}
 /* --- merged from Premier calculator --- */
 /* --- brand block --- */
-.brand{display:flex;flex-direction:column;justify-content:center;margin-right:auto;padding-right:16px;line-height:1.25}
+.brand{display:flex;align-items:center;gap:10px;margin-right:auto;padding-right:16px;line-height:1.25}
+.brand-text{display:flex;flex-direction:column}
+.brand-logo{height:30px;width:auto;display:block}
 .brand-title{font-weight:600;font-size:15px;letter-spacing:-.01em;color:var(--artifact-text-primary)}
 .brand-sub{font-family:"SF Mono","IBM Plex Mono","Consolas",monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--artifact-text-secondary)}
 /* --- tab navigation --- */
@@ -187,8 +189,11 @@ tr.total td{font-weight:600;border-top:2px solid var(--artifact-border-dark);bac
 <body>
 <nav class="tab-bar" aria-label="Calculator selector">
 <div class="brand">
-  <span class="brand-title">SolarWinds Sizing</span>
-  <span class="brand-sub">by Westcon ID Team</span>
+  <img class="brand-logo" src="favicon.svg" alt="Westcon">
+  <div class="brand-text">
+    <span class="brand-title">SolarWinds Sizing</span>
+    <span class="brand-sub">by Westcon ID Team</span>
+  </div>
 </div>
 <div class="tabs" aria-label="Calculators">
 <button class="tab-btn active" data-tab="sw">SWO SaaS</button>
