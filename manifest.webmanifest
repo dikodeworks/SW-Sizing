@@ -1,0 +1,29 @@
+{
+  "id": "./",
+  "name": "SolarWinds License & Hardware Sizing Calculators",
+  "short_name": "SW Sizing",
+  "description": "Size SolarWinds SWO SaaS, OSH Essentials & Advanced, OSH Premier, DPA and Service Desk licenses and hardware.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#ffffff",
+  "theme_color": "#ff6200",
+  "lang": "en",
+  "dir": "ltr",
+  "categories": ["business", "productivity", "utilities"],
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
